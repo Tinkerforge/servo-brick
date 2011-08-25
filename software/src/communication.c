@@ -157,7 +157,7 @@ void set_position(uint8_t com, const SetPosition *data) {
 		}
 	}
 
-	logservoi("set_position %d: %d  %d %d\n\r", servo, data->position, position, value);
+	logservoi("set_position %d: %d\n\r", data->servo, data->position);
 }
 
 void get_position(uint8_t com, const GetPosition *data) {
@@ -222,7 +222,7 @@ void set_velocity(uint8_t com, const SetVelocity *data) {
 		}
 	}
 
-	logservoi("set_velocity %d: %d %d %d\n\r", servo, data->velocity, servo_velocity_goal[servo], servo_velocity_max[servo]);
+	logservoi("set_velocity %d: %d\n\r", data->servo, data->velocity);
 }
 
 void get_velocity(uint8_t com, const GetVelocity *data) {
@@ -295,7 +295,7 @@ void set_acceleration(uint8_t com, const SetAcceleration *data) {
 		}
 	}
 
-	logservoi("set_acceleration %d: %d %d %d\n\r", servo, data->acceleration, servo_acceleration[servo], servo_acceleration_max[servo]);
+	logservoi("set_acceleration %d: %d\n\r", data->servo, data->acceleration);
 }
 
 void get_acceleration(uint8_t com, const GetAcceleration *data) {
@@ -371,7 +371,7 @@ void set_pulse_width(uint8_t com, const SetPulseWidth *data) {
 		}
 	}
 
-	logservoi("set_pulse_width (min/max): %d/%d %d/%d\n\r", data->min_pulse_width, data->max_pulse_width, servo_min_pulse_width[servo], servo_max_pulse_width[servo]);
+	logservoi("set_pulse_width (min/max): %d/%d\n\r", data->min_pulse_width, data->max_pulse_width);
 }
 
 void get_pulse_width(uint8_t com, const GetPulseWidth *data) {
