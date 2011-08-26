@@ -42,7 +42,7 @@
 
 #define DISABLE_JTAG_ON_STARTUP
 //#define LOGGING_SERIAL
-//#define LOGGING_LEVEL LOGGING_ERROR
+//#define LOGGING_LEVEL LOGGING_DEBUG
 #define LOGGING_LEVEL LOGGING_NONE
 
 
@@ -191,8 +191,6 @@
                        SERVO_OFF_PIN_6
 
 // ************** SERVO CURRENT MEASARING *****
-// Do not use periodic adc conversion, all timer counter are needed
-#define NO_PERIODIC_ADC_CONVERISION
 #define USART_SPI_CLK  1000000 // 1 Mhz
 
 #define PIN_USART_SPI_MISO          {1 << 5, PIOA, ID_PIOA, PIO_PERIPH_A, PIO_DEFAULT}

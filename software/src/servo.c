@@ -284,10 +284,6 @@ void tick_task(void) {
 		update_servo_current();
 	}
 
-	// Make adc conversions in tick_task, there is no timer counter available
-	// in servo brick for this
-	adc_start_conversion();
-
 	uint32_t pwm_mask = PWM->PWM_ISR1;
 
 
