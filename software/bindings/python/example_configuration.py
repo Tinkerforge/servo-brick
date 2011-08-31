@@ -9,7 +9,7 @@ from ip_connection import IPConnection
 from brick_servo import Servo
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create ip connection to brick
+    ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd
 
     servo = Servo(UID) # Create device object
     ipcon.add_device(servo) # Add device to ip connection
