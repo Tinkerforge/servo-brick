@@ -390,15 +390,18 @@ void servo_check_error_signals(void) {
 	    stack_voltage > SERVO_VOLTAGE_EPSILON &&
 	    stack_voltage < servo_minimum_voltage)) {
 		UnderVoltageSignal uvs = {
-				com_stack_id,
-				TYPE_UNDER_VOLTAGE,
-				sizeof(UnderVoltageSignal),
-				external_voltage == 0 ? stack_voltage : external_voltage
+			com_stack_id,
+			TYPE_UNDER_VOLTAGE,
+			sizeof(UnderVoltageSignal),
+			external_voltage < SERVO_VOLTAGE_EPSILON ? stack_voltage : external_voltage
 		};
 
 		send_blocking_with_timeout(&uvs,
 		                           sizeof(UnderVoltageSignal),
 		                           com_current);
+		led_on(LED_STD_RED);
+	} else {
+		led_off(LED_STD_RED);
 	}
 }
 
