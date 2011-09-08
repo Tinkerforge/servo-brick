@@ -290,7 +290,7 @@ void tick_task(void) {
 
 
 	// Switch Output Voltage between extern and stack
-	if(servo_get_stack_voltage() < SERVO_VOLTAGE_EPSILON) {
+	if(servo_get_external_voltage() < SERVO_VOLTAGE_EPSILON) {
 		PIO_Set(&pin_voltage_switch);
 	} else {
 		PIO_Clear(&pin_voltage_switch);
