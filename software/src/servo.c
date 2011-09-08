@@ -271,6 +271,8 @@ uint16_t servo_minimum_voltage = SERVO_MIN_VOLTAGE;
 
 uint32_t tick = 0;
 
+Pin pin_voltage_switch = VOLTAGE_STACK_SWITCH_PIN;
+
 int32_t servo_ns_to_pwm(uint8_t servo, int32_t position) {
 	return (position/((1000/servo_pwmtc_mult[servo])*2));
 }
@@ -285,6 +287,14 @@ void tick_task(void) {
 	}
 
 	uint32_t pwm_mask = PWM->PWM_ISR1;
+
+
+	// Switch Output Voltage between extern and stack
+	if(servo_get_stack_voltage() < SERVO_VOLTAGE_EPSILON) {
+		PIO_Set(&pin_voltage_switch);
+	} else {
+		PIO_Clear(&pin_voltage_switch);
+	}
 
 
 	for(uint8_t i = 0; i < SERVO_NUM; i++) {
