@@ -288,7 +288,6 @@ void tick_task(void) {
 
 	uint32_t pwm_mask = PWM->PWM_ISR1;
 
-
 	// Switch Output Voltage between extern and stack
 	if(servo_get_external_voltage() < SERVO_VOLTAGE_EPSILON) {
 		PIO_Set(&pin_voltage_switch);
