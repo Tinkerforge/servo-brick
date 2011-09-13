@@ -79,7 +79,7 @@ void USART0_IrqHandler(void) {
 		value |= MCP3008_END_POS(USART0->US_RHR);
 		mcp3008_deselect();
 
-		servo_current_sum[pos] += value;
+		servo_current_sum[6-pos] += value;
 
 		pos = (pos + 1) % SERVO_NUM;
 		if(pos == 0) {

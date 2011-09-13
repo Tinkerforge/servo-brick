@@ -44,45 +44,47 @@ Pin servos_on[] = {SERVO_ON_PINS};
 uint32_t servo_state = 0;
 
 // true if servo is pwm pin, otherwise it is tc
-bool servo_is_pwm[SERVO_NUM] = {false, false, true, true, false, true, true};
+bool servo_is_pwm[SERVO_NUM] = {true, true, false, true, true, false, false};
 
-RwReg *servo_tc_counter[SERVO_NUM]  = {&SERVO_COUNTER_0A,
-                                       &SERVO_COUNTER_2A,
-                                       NULL,
+RwReg *servo_tc_counter[SERVO_NUM]  = {NULL,
                                        NULL,
                                        &SERVO_COUNTER_1B,
                                        NULL,
-                                       NULL
+                                       NULL,
+                                       &SERVO_COUNTER_2A,
+                                       &SERVO_COUNTER_0A
 };
 
-RwReg *servo_tc_counterp[SERVO_NUM]  = {&SERVO_COUNTER_0C,
-                                        &SERVO_COUNTER_2C,
-                                        NULL,
+RwReg *servo_tc_counterp[SERVO_NUM]  = {NULL,
                                         NULL,
                                         &SERVO_COUNTER_1C,
                                         NULL,
-                                        NULL
+                                        NULL,
+                                        &SERVO_COUNTER_2C,
+                                        &SERVO_COUNTER_0C
 };
 
-TcChannel *servo_tc_channel[SERVO_NUM] = {&SERVO_TC_CHANNEL_0,
-                                          &SERVO_TC_CHANNEL_2,
-                                          NULL,
+TcChannel *servo_tc_channel[SERVO_NUM] = {NULL,
                                           NULL,
                                           &SERVO_TC_CHANNEL_1,
                                           NULL,
-                                          NULL
+                                          NULL,
+                                          &SERVO_TC_CHANNEL_2,
+                                          &SERVO_TC_CHANNEL_0
 };
 
 
-uint8_t servo_pwm_channel[SERVO_NUM] = {0xFF, 0xFF, 2, 1, 0xFF, 3, 0};
+uint8_t servo_pwm_channel[SERVO_NUM] = {0, 3, 0xFF, 1, 2, 0xFF, 0xFF};
 
-uint8_t servo_pwmtc_mult[SERVO_NUM] = {SERVO_TIMER_MULT_TC_32,
+
+uint8_t servo_pwmtc_mult[SERVO_NUM] = {SERVO_TIMER_MULT_PWM_32,
+									   SERVO_TIMER_MULT_PWM_32,
 									   SERVO_TIMER_MULT_TC_32,
 									   SERVO_TIMER_MULT_PWM_32,
 									   SERVO_TIMER_MULT_PWM_32,
 									   SERVO_TIMER_MULT_TC_32,
-									   SERVO_TIMER_MULT_PWM_32,
-									   SERVO_TIMER_MULT_PWM_32};
+									   SERVO_TIMER_MULT_TC_32};
+
 
 
 int16_t servo_position_orig[SERVO_NUM] = {SERVO_POSITION_ORIG,
