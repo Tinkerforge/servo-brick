@@ -42,8 +42,8 @@ public class ExampleCallback {
 		});
 
 		// Set velocity to 100°/s. This has to be smaller or equal to the
-		// maximum velocity of the servo you are using, otherwise cb_reached 
-		// will be called too early
+		// maximum velocity of the servo you are using, otherwise the 
+		// velocity reached listener will be called too early
 		servo.setVelocity((short)0, 10000); 
 		servo.setPosition((short)0, (short)9000);
 		servo.enable((short)0);
