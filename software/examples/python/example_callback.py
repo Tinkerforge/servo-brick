@@ -5,8 +5,8 @@ HOST = "localhost"
 PORT = 4223
 UID = "aySDPqVAkmw" # Change to your UID
 
-from ip_connection import IPConnection
-from brick_servo import Servo
+from tinkerforge.ip_connection import IPConnection
+from tinkerforge.brick_servo import Servo
 
 servo = Servo(UID) # Create device object
 
