@@ -23,6 +23,7 @@
 #define SERVO_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #define SERVO_TIMER_MULT_TC_32 4
 #define SERVO_TIMER_MULT_TC_128 1
@@ -95,8 +96,8 @@ uint16_t servo_get_external_voltage(void);
 uint16_t servo_get_stack_voltage(void);
 
 void servo_check_error_signals(void);
-void servo_position_reached_signal(uint8_t servo);
-void servo_velocity_reached_signal(uint8_t servo);
+bool servo_position_reached_signal(uint8_t servo);
+bool servo_velocity_reached_signal(uint8_t servo);
 
 void servo_enable(uint8_t servo);
 void servo_disable(uint8_t servo);

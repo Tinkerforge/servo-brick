@@ -299,6 +299,18 @@ void tick_task(void) {
 
 
 	for(uint8_t i = 0; i < SERVO_NUM; i++) {
+		if(servo_position_reached[i]) {
+			if(servo_position_reached_signal(i)) {
+				servo_position_reached[i] = false;
+			}
+		}
+
+		if(servo_velocity_reached[i]) {
+			if(servo_velocity_reached_signal(i)) {
+				servo_velocity_reached[i] = false;
+			}
+		}
+
 		if(!servo_enabled[i] || servo_position_goal[i] == servo_position[i]) {
 			continue;
 		}
@@ -369,16 +381,6 @@ void tick_task(void) {
 			servo_velocity[i] = 0;
 			servo_position_reached[i] = true;
 		}
-
-		if(servo_position_reached[i]) {
-			servo_position_reached[i] = false;
-			servo_position_reached_signal(i);
-		}
-
-		if(servo_velocity_reached[i]) {
-			servo_velocity_reached[i] = false;
-			servo_velocity_reached_signal(i);
-		}
 	}
 
 	servo_check_error_signals();
@@ -416,7 +418,7 @@ void servo_check_error_signals(void) {
 	}
 }
 
-void servo_position_reached_signal(uint8_t servo) {
+bool servo_position_reached_signal(uint8_t servo) {
 	PositionReachedSignal prs = {
 		com_stack_id,
 		TYPE_POSITION_REACHED,
@@ -425,12 +427,10 @@ void servo_position_reached_signal(uint8_t servo) {
 		servo_position_orig[servo]
 	};
 
-	send_blocking_with_timeout(&prs,
-	                           sizeof(PositionReachedSignal),
-	                           com_current);
+	return SEND(&prs, sizeof(PositionReachedSignal), com_current);
 }
 
-void servo_velocity_reached_signal(uint8_t servo) {
+bool servo_velocity_reached_signal(uint8_t servo) {
 	VelocityReachedSignal vrs = {
 		com_stack_id,
 		TYPE_VELOCITY_REACHED,
@@ -439,9 +439,7 @@ void servo_velocity_reached_signal(uint8_t servo) {
 		servo_velocity_orig[servo]
 	};
 
-	send_blocking_with_timeout(&vrs,
-	                           sizeof(VelocityReachedSignal),
-	                           com_current);
+	return SEND(&vrs, sizeof(VelocityReachedSignal), com_current);
 }
 
 void servo_update_data(uint8_t servo,
