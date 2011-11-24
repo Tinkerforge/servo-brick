@@ -767,9 +767,13 @@ void servo_enable(uint8_t servo) {
 	servo_enabled[servo] = true;
 	if(servo_is_pwm[servo]) {
 		PWMC_EnableChannel(PWM, servo_pwm_channel[servo]);
+		while(!(PWM->PWM_SR & (1 << servo_pwm_channel[servo])));
 	} else {
 		tc_channel_start(servo_tc_channel[servo]);
 	}
+
+	// Update position once
+	servo_update_position(servo);
 }
 
 void servo_disable(uint8_t servo) {
