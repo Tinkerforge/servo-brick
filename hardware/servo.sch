@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Do 25 Aug 2011 14:03:05 CEST
+EESchema Schematic File Version 2  date Mon 13 Feb 2012 16:00:51 CET
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -30,15 +30,14 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:tinkerforge
-LIBS:servo-cache
 EELAYER 25  0
 EELAYER END
 $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 5
-Title ""
-Date "25 aug 2011"
-Rev ""
+Title "Servo Brick"
+Date "3 jan 2012"
+Rev "1.0"
 Comp "Tinkerforge GmbH"
 Comment1 "Licensed under CERN OHL v.1.1"
 Comment2 "Copyright (©) 2011, B.Nordmeyer <bastian@tinkerforge.com>"
@@ -577,7 +576,7 @@ U 1 1 4C3ED8E1
 P 5050 2750
 F 0 "D1" H 5050 2850 50  0000 C CNN
 F 1 "blue" H 5050 2650 50  0000 C CNN
-F 2 "0603" H 5050 2750 60  0001 C CNN
+F 2 "D0603" H 5050 2750 60  0001 C CNN
 	1    5050 2750
 	-1   0    0    -1  
 $EndComp
@@ -587,7 +586,7 @@ U 1 1 4C3ED8B3
 P 5050 3050
 F 0 "D2" H 5050 3150 50  0000 C CNN
 F 1 "red" H 5050 2950 50  0000 C CNN
-F 2 "0603" H 5050 3050 60  0001 C CNN
+F 2 "D0603" H 5050 3050 60  0001 C CNN
 	1    5050 3050
 	-1   0    0    -1  
 $EndComp
