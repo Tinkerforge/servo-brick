@@ -84,7 +84,7 @@
 
 void new_connection(void);
 void servo_init(void);
-void tick_task(void);
+void tick_task(uint8_t tick_type);
 void servo_step(void);
 void servo_update_position(uint8_t servo);
 uint16_t servo_get_period(uint8_t servo);
@@ -96,8 +96,8 @@ uint16_t servo_get_external_voltage(void);
 uint16_t servo_get_stack_voltage(void);
 
 void servo_check_error_signals(void);
-bool servo_position_reached_signal(uint8_t servo);
-bool servo_velocity_reached_signal(uint8_t servo);
+void servo_position_reached_signal(uint8_t servo);
+void servo_velocity_reached_signal(uint8_t servo);
 
 void servo_enable(uint8_t servo);
 void servo_disable(uint8_t servo);

@@ -36,6 +36,7 @@
 #include "bricklib/drivers/usart/usart.h"
 #include "bricklib/utility/util_definitions.h"
 #include "bricklib/utility/led.h"
+#include "bricklib/utility/init.h"
 
 #include <stdio.h>
 
@@ -272,6 +273,7 @@ uint16_t servo_output_voltage = 0;
 uint16_t servo_minimum_voltage = SERVO_MIN_VOLTAGE;
 
 uint32_t tick = 0;
+uint32_t tick_message = 0;
 
 Pin pin_voltage_switch = VOLTAGE_STACK_SWITCH_PIN;
 
@@ -282,112 +284,116 @@ int32_t servo_ns_to_pwm(uint8_t servo, int32_t position) {
 void new_connection(void) {
 }
 
-void tick_task(void) {
-	tick++;
-	if(tick % 50 == 0) {
-		update_servo_current();
-	}
-
-	uint32_t pwm_mask = PWM->PWM_ISR1;
-
-	// Switch Output Voltage between extern and stack
-	if(servo_get_external_voltage() < SERVO_VOLTAGE_EPSILON) {
-		PIO_Set(&pin_voltage_switch);
-	} else {
-		PIO_Clear(&pin_voltage_switch);
-	}
-
-
-	for(uint8_t i = 0; i < SERVO_NUM; i++) {
-		if(servo_position_reached[i]) {
-			if(servo_position_reached_signal(i)) {
-				servo_position_reached[i] = false;
-			}
+void tick_task(uint8_t tick_type) {
+	if(tick_type == TICK_TASK_TYPE_CALCULATION) {
+		tick++;
+		if(tick % 50 == 0) {
+			update_servo_current();
 		}
 
-		if(servo_velocity_reached[i]) {
-			if(servo_velocity_reached_signal(i)) {
-				servo_velocity_reached[i] = false;
-			}
+		uint32_t pwm_mask = PWM->PWM_ISR1;
+
+		// Switch Output Voltage between extern and stack
+		if(servo_get_external_voltage() < SERVO_VOLTAGE_EPSILON) {
+			PIO_Set(&pin_voltage_switch);
+		} else {
+			PIO_Clear(&pin_voltage_switch);
 		}
 
-		if(!servo_enabled[i] || servo_position_goal[i] == servo_position[i]) {
-			continue;
-		}
 
-		// Check if this is a new period, we only update once per period
-		if(servo_is_pwm[i]) {
-			if(!(pwm_mask & (1 << servo_pwm_channel[i]))) {
+		for(uint8_t i = 0; i < SERVO_NUM; i++) {
+			if(!servo_enabled[i] || servo_position_goal[i] == servo_position[i]) {
 				continue;
 			}
-		} else if(!(servo_tc_channel[i]->TC_SR & TC_SR_CPCS)) {
-			continue;
-		}
 
-		// Update position
-		if(servo_velocity[i] >= servo_velocity_max[i] &&
-		   servo_acceleration[i] >= servo_acceleration_max[i]) {
-			servo_position[i] = servo_position_goal[i];
-		} else if(servo_position_goal[i] > servo_position[i]) {
-			int32_t new_vel = servo_position[i] +
-			                  servo_acceleration[i]/2 +
-			                  servo_velocity[i];
-
-			if(new_vel > servo_position_goal[i]) {
-				servo_position[i] = servo_position_goal[i];
-			} else {
-				servo_position[i] = new_vel;
-			}
-		} else if(servo_position_goal[i] < servo_position[i]) {
-			int32_t new_vel = servo_position[i] -
-			                  servo_acceleration[i]/2 -
-			                  servo_velocity[i];
-
-			if(new_vel < servo_position_goal[i]) {
-				servo_position[i] = servo_position_goal[i];
-			} else {
-				servo_position[i] = new_vel;
-			}
-		}
-
-		// Update velocity
-		if(servo_velocity[i] != servo_velocity_goal[i]) {
-			if(servo_acceleration[i] >= servo_acceleration_max[i]) {
-				servo_velocity[i] = servo_velocity_goal[i];
-			} else if(servo_velocity_goal[i] > servo_velocity[i]) {
-				int32_t new_vel = servo_velocity[i] + servo_acceleration[i];
-				if(new_vel > servo_velocity_goal[i]) {
-					servo_velocity[i] = servo_velocity_goal[i];
-				} else {
-					servo_velocity[i] = new_vel;
+			// Check if this is a new period, we only update once per period
+			if(servo_is_pwm[i]) {
+				if(!(pwm_mask & (1 << servo_pwm_channel[i]))) {
+					continue;
 				}
-			} else if(servo_velocity_goal[i] < servo_velocity[i]) {
-				int32_t new_vel = servo_velocity[i] - servo_acceleration[i];
-				if(new_vel < servo_velocity_goal[i]) {
-					servo_velocity[i] = servo_velocity_goal[i];
+			} else if(!(servo_tc_channel[i]->TC_SR & TC_SR_CPCS)) {
+				continue;
+			}
+
+			// Update position
+			if(servo_velocity[i] >= servo_velocity_max[i] &&
+			   servo_acceleration[i] >= servo_acceleration_max[i]) {
+				servo_position[i] = servo_position_goal[i];
+			} else if(servo_position_goal[i] > servo_position[i]) {
+				int32_t new_vel = servo_position[i] +
+								  servo_acceleration[i]/2 +
+								  servo_velocity[i];
+
+				if(new_vel > servo_position_goal[i]) {
+					servo_position[i] = servo_position_goal[i];
 				} else {
-					servo_velocity[i] = new_vel;
+					servo_position[i] = new_vel;
+				}
+			} else if(servo_position_goal[i] < servo_position[i]) {
+				int32_t new_vel = servo_position[i] -
+								  servo_acceleration[i]/2 -
+								  servo_velocity[i];
+
+				if(new_vel < servo_position_goal[i]) {
+					servo_position[i] = servo_position_goal[i];
+				} else {
+					servo_position[i] = new_vel;
 				}
 			}
 
-			if(servo_velocity[i] == servo_velocity_goal[i]) {
-				servo_velocity_reached[i] = true;
+			// Update velocity
+			if(servo_velocity[i] != servo_velocity_goal[i]) {
+				if(servo_acceleration[i] >= servo_acceleration_max[i]) {
+					servo_velocity[i] = servo_velocity_goal[i];
+				} else if(servo_velocity_goal[i] > servo_velocity[i]) {
+					int32_t new_vel = servo_velocity[i] + servo_acceleration[i];
+					if(new_vel > servo_velocity_goal[i]) {
+						servo_velocity[i] = servo_velocity_goal[i];
+					} else {
+						servo_velocity[i] = new_vel;
+					}
+				} else if(servo_velocity_goal[i] < servo_velocity[i]) {
+					int32_t new_vel = servo_velocity[i] - servo_acceleration[i];
+					if(new_vel < servo_velocity_goal[i]) {
+						servo_velocity[i] = servo_velocity_goal[i];
+					} else {
+						servo_velocity[i] = new_vel;
+					}
+				}
+
+				if(servo_velocity[i] == servo_velocity_goal[i]) {
+					servo_velocity_reached[i] = true;
+				}
+			}
+
+			servo_update_position(i);
+
+			if(servo_position[i] == servo_position_goal[i]) {
+				servo_velocity[i] = 0;
+				servo_position_reached[i] = true;
+			}
+		}
+	} else if(tick_type == TICK_TASK_TYPE_MESSAGE) {
+		tick_message++;
+
+		for(uint8_t i = 0; i < SERVO_NUM; i++) {
+			if(servo_position_reached[i]) {
+				servo_position_reached[i] = false;
+				servo_position_reached_signal(i);
+			}
+
+			if(servo_velocity_reached[i]) {
+				servo_velocity_reached[i] = false;
+				servo_velocity_reached_signal(i);
 			}
 		}
 
-		servo_update_position(i);
-
-		if(servo_position[i] == servo_position_goal[i]) {
-			servo_velocity[i] = 0;
-			servo_position_reached[i] = true;
-		}
+		servo_check_error_signals();
 	}
-
-	servo_check_error_signals();
 }
 
 void servo_check_error_signals(void) {
-	if(tick % 1000 != 0) {
+	if(tick_message % 1000 != 0) {
 		return;
 	}
 
@@ -418,7 +424,7 @@ void servo_check_error_signals(void) {
 	}
 }
 
-bool servo_position_reached_signal(uint8_t servo) {
+void servo_position_reached_signal(uint8_t servo) {
 	PositionReachedSignal prs = {
 		com_stack_id,
 		TYPE_POSITION_REACHED,
@@ -427,10 +433,12 @@ bool servo_position_reached_signal(uint8_t servo) {
 		servo_position_orig[servo]
 	};
 
-	return SEND(&prs, sizeof(PositionReachedSignal), com_current);
+	send_blocking_with_timeout(&prs,
+	                           sizeof(PositionReachedSignal),
+	                           com_current);
 }
 
-bool servo_velocity_reached_signal(uint8_t servo) {
+void servo_velocity_reached_signal(uint8_t servo) {
 	VelocityReachedSignal vrs = {
 		com_stack_id,
 		TYPE_VELOCITY_REACHED,
@@ -439,7 +447,9 @@ bool servo_velocity_reached_signal(uint8_t servo) {
 		servo_velocity_orig[servo]
 	};
 
-	return SEND(&vrs, sizeof(VelocityReachedSignal), com_current);
+	send_blocking_with_timeout(&vrs,
+	                           sizeof(VelocityReachedSignal),
+	                           com_current);
 }
 
 void servo_update_data(uint8_t servo,
