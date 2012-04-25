@@ -22,8 +22,8 @@ def cb_reached(servo_num, position):
         print('Error') # Can only happen if another program sets position
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create ip connection to brickd
-    ipcon.add_device(servo) # Add device to ip connection
+    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
+    ipcon.add_device(servo) # Add device to IP connection
     # Don't use device before it is added to a connection
 
 

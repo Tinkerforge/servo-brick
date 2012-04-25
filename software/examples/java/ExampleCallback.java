@@ -19,10 +19,9 @@ public class ExampleCallback {
 
 		servo = new BrickServo(UID); // Create device object
 
-		// Add device to ip connection
+		// Add device to IP connection
 		ipcon.addDevice(servo); // Can throw IPConnection.TimeoutException
 		// Don't use device before it is added to a connection
-		
 
 		// Add and implement position reached listener 
 		// (called if velocity set by setVelocity is reached)

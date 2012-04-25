@@ -32,9 +32,8 @@ class Example
 	{
 		IPConnection ipcon = new IPConnection(HOST, PORT); // Create connection to brickd
 		servo = new BrickServo(UID); // Create device object
-		ipcon.AddDevice(servo); // Add device to ip connection
+		ipcon.AddDevice(servo); // Add device to IP connection
 		// Don't use device before it is added to a connection
-
 
 		// Register "position reached callback" to ReachedCB
 		// ReachedCB will be called every time a position set with
@@ -50,5 +49,5 @@ class Example
 
 		System.Console.WriteLine("Press ctrl+c to exit");
 		ipcon.JoinThread();
-    }
+	}
 }

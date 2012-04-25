@@ -11,14 +11,12 @@ public class ExampleConfiguration {
 	public static void main(String args[]) throws Exception {
 		// Create connection to brickd
 		IPConnection ipcon = new IPConnection(host, port); // Can throw IOException
-
 		BrickServo servo = new BrickServo(UID); // Create device object
 
-		// Add device to ip connection
+		// Add device to IP connection
 		ipcon.addDevice(servo); // Can throw IPConnection.TimeoutException
 		// Don't use device before it is added to a connection
-		
-	
+
 		// Configure two servos with voltage 5.5V
 		// Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
 		//          and operating angle -100 to 100°
