@@ -26,7 +26,6 @@ if __name__ == "__main__":
     ipcon.add_device(servo) # Add device to IP connection
     # Don't use device before it is added to a connection
 
-
     # Register "position reached callback" to cb_reached
     # cb_reached will be called every time a position set with
     # set_position is reached

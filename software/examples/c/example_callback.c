@@ -41,13 +41,12 @@ int main() {
 	}
 	// Don't use device before it is added to a connection
 
-
 	// Register "position reached callback" to cb_reached
 	// cb_reached will be called every time a position set with
 	// set_position is reached
 	servo_register_callback(&servo, 
 	                        SERVO_CALLBACK_POSITION_REACHED, 
-							cb_reached);
+	                        cb_reached);
 
 	// Set velocity to 100°/s. This has to be smaller or equal to 
 	// maximum velocity of the servo, otherwise cb_reached will be

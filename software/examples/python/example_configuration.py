@@ -15,14 +15,12 @@ if __name__ == "__main__":
     ipcon.add_device(servo) # Add device to IP connection
     # Don't use device before it is added to a connection
 
-
     # Configure two servos with voltage 5.5V
     # Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
     #          and operating angle -100 to 100°
     #
     # Servo 2: Connected to port 5, period of 20ms, pulse width of 0.95 
     #          to 1.95ms and operating angle -90 to 90°
-
     servo.set_output_voltage(5500)
 
     servo.set_degree(0, -10000, 10000)

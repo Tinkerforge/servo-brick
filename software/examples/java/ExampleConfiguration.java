@@ -23,7 +23,6 @@ public class ExampleConfiguration {
 		//
 		// Servo 2: Connected to port 5, period of 20ms, pulse width of 0.95 
 		//          to 1.95ms and operating angle -90 to 90°
-
 		servo.setOutputVoltage(5500);
 
 		servo.setDegree((short)0, (short)-10000, (short)10000);
