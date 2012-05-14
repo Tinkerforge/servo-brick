@@ -2,9 +2,9 @@ import com.tinkerforge.BrickServo;
 import com.tinkerforge.IPConnection;
 
 public class ExampleCallback {
-	private static final String host = new String("localhost");
+	private static final String host = "localhost";
 	private static final int port = 4223;
-	private static final String UID = new String("a4LCMm3K2bS"); // Change to your UID
+	private static final String UID = "a4LCMm3K2bS"; // Change to your UID
 
 	// Declare servo static, so the listener can use it. In a real program you probably
 	// want to make a real listener class (not the anonym inner class) and pass the servo
