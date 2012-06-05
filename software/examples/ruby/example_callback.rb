@@ -16,7 +16,7 @@ ipcon.add_device servo # Add device to IP connection
 # Don't use device before it is added to a connection
 
 # Use position reached callback to swing back and forth
-servo.register_callback BrickServo::CALLBACK_POSITION_REACHED, do |servo_num, position|
+servo.register_callback(BrickServo::CALLBACK_POSITION_REACHED) do |servo_num, position|
   if position == 9000
     puts 'Position: 90°, going to -90°'
     servo.set_position servo_num, -9000
