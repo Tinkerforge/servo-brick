@@ -47,7 +47,7 @@ public class ExampleCallback {
 		servo.setPosition((short)0, (short)9000);
 		servo.enable((short)0);
 
-		System.out.println("Press ctrl+c to exit");
-		ipcon.joinThread();
+		System.console().readLine("Press key to exit\n");
+		ipcon.destroy();
 	}
 }
