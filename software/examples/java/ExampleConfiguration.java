@@ -43,7 +43,7 @@ public class ExampleConfiguration {
 		servo.setPosition((short)5, (short)-9000); // Set to most left position
 		servo.enable((short)5);
 
-		System.out.println("Press ctrl+c to exit");
-		ipcon.joinThread();
+		System.console().readLine("Press key to exit\n");
+		ipcon.destroy();
 	}
 }

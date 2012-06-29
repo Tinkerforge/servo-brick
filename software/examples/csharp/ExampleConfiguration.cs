@@ -39,7 +39,8 @@ class Example
 		servo.SetPosition(5, -9000); // Set to most left position
 		servo.Enable(5);
 
-		System.Console.WriteLine("Press ctrl+c to exit");
-		ipcon.JoinThread();
+		System.Console.WriteLine("Press key to exit");
+		System.Console.ReadKey();
+		ipcon.Destroy();
 	}
 }

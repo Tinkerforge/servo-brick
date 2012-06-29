@@ -53,6 +53,7 @@ int main() {
 	servo_set_position(&servo, 5, -9000); // Set to most left position
 	servo_enable(&servo, 5);
 
-	printf("Press ctrl+c to close\n");
-	ipcon_join_thread(&ipcon); // Join mainloop of IP connection
+	printf("Press key to exit\n");
+	getchar();
+	ipcon_destroy(&ipcon);
 }
