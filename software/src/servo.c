@@ -692,9 +692,15 @@ void servo_set_period(uint8_t servo, uint16_t period) {
 		if(period > 0xFFFF/2) {
 			div = PWM_CMR_CPRE_MCK_DIV_64;
 			servo_pwmtc_mult[servo] = SERVO_TIMER_MULT_PWM_64;
-		} else {
+		} else if(period > 8000){
 			div = PWM_CMR_CPRE_MCK_DIV_32;
 			servo_pwmtc_mult[servo] = SERVO_TIMER_MULT_PWM_32;
+		} else if(period > 1000) {
+			div = PWM_CMR_CPRE_MCK_DIV_8;
+			servo_pwmtc_mult[servo] = SERVO_TIMER_MULT_PWM_8;
+		} else {
+			div = PWM_CMR_CPRE_MCK_DIV_2;
+			servo_pwmtc_mult[servo] = SERVO_TIMER_MULT_PWM_2;
 		}
 
 		PWMC_ConfigureChannel(PWM,
@@ -721,11 +727,23 @@ void servo_set_period(uint8_t servo, uint16_t period) {
 					(servo_tc_channel[servo]->TC_CMR & ~7)
 					| TC_CMR_TCCLKS_TIMER_CLOCK4; // 128
 
-		} else {
+		} else if(period > 8000) {
 			servo_pwmtc_mult[servo] = SERVO_TIMER_MULT_TC_32;
 			servo_tc_channel[servo]->TC_CMR =
 					(servo_tc_channel[servo]->TC_CMR & ~7)
 					| TC_CMR_TCCLKS_TIMER_CLOCK3; // 32
+
+		} else if(period > 1000) {
+			servo_pwmtc_mult[servo] = SERVO_TIMER_MULT_TC_8;
+			servo_tc_channel[servo]->TC_CMR =
+					(servo_tc_channel[servo]->TC_CMR & ~7)
+					| TC_CMR_TCCLKS_TIMER_CLOCK2; // 8
+
+		} else {
+			servo_pwmtc_mult[servo] = SERVO_TIMER_MULT_TC_2;
+			servo_tc_channel[servo]->TC_CMR =
+					(servo_tc_channel[servo]->TC_CMR & ~7)
+					| TC_CMR_TCCLKS_TIMER_CLOCK1; // 2
 
 		}
 

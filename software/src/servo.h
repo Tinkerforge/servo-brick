@@ -25,10 +25,14 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define SERVO_TIMER_MULT_TC_32 4
-#define SERVO_TIMER_MULT_TC_128 1
-#define SERVO_TIMER_MULT_PWM_32 4
-#define SERVO_TIMER_MULT_PWM_64 2
+#define SERVO_TIMER_MULT_TC_2   64
+#define SERVO_TIMER_MULT_TC_8   16
+#define SERVO_TIMER_MULT_TC_32   4
+#define SERVO_TIMER_MULT_TC_128  1
+#define SERVO_TIMER_MULT_PWM_2  64
+#define SERVO_TIMER_MULT_PWM_8  16
+#define SERVO_TIMER_MULT_PWM_32  4
+#define SERVO_TIMER_MULT_PWM_64  2
 
 #define SERVO_VALUE_2V 1740
 #define SERVO_VALUE_9V 455
@@ -39,7 +43,7 @@
 #define SERVO_MAX_VOLTAGE 27000
 #define SERVO_VOLTAGE_EPSILON 1000
 
-#define SERVO_MIN_PERIOD 2000 // min period is 2ms = 500Hz
+#define SERVO_MIN_PERIOD 1 // Min period is 1us
 
 #define STATE_HIGH 0
 #define STATE_LOW 1
