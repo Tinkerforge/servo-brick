@@ -18,7 +18,7 @@ type
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = '9eitci17HNS';
+  UID = '9eitci17HNS'; { Change to your UID }
 
 var
   e: TExample;
