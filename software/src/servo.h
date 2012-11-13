@@ -1,5 +1,5 @@
 /* servo-brick
- * Copyright (C) 2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2011-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * servo.h: Servo specific functions implementation
  *
@@ -88,31 +88,31 @@
 
 void new_connection(void);
 void servo_init(void);
-void tick_task(uint8_t tick_type);
+void tick_task(const uint8_t tick_type);
 void servo_step(void);
-void servo_update_position(uint8_t servo);
-uint16_t servo_get_period(uint8_t servo);
-void servo_set_period(uint8_t servo, uint16_t period);
-void servo_set_output_voltage(uint16_t voltage);
+void servo_update_position(const uint8_t servo);
+uint16_t servo_get_period(const uint8_t servo);
+void servo_set_period(const uint8_t servo, const uint16_t period);
+void servo_set_output_voltage(const uint16_t voltage);
 void update_servo_current(void);
 uint16_t servo_get_output_voltage();
 uint16_t servo_get_external_voltage(void);
 uint16_t servo_get_stack_voltage(void);
 
 void servo_check_error_signals(void);
-void servo_position_reached_signal(uint8_t servo);
-void servo_velocity_reached_signal(uint8_t servo);
+void servo_position_reached_signal(const uint8_t servo);
+void servo_velocity_reached_signal(const uint8_t servo);
 
-void servo_enable(uint8_t servo);
-void servo_disable(uint8_t servo);
+void servo_enable(const uint8_t servo);
+void servo_disable(const uint8_t servo);
 
-void servo_update_data(uint8_t servo,
-                       int32_t period_length_old, int32_t period_length_new,
-                       int32_t period_old, int32_t period_new,
-                       int32_t min_pulse_width_old, int32_t min_pulse_width_new,
-                       int32_t max_pulse_width_old, int32_t max_pulse_width_new,
-                       int16_t min_degree_old, int16_t min_degree_new,
-                       int16_t max_degree_old, int16_t max_degree_new);
+void servo_update_data(const uint8_t servo,
+                       const int32_t period_length_old, const int32_t period_length_new,
+                       const int32_t period_old, const int32_t period_new,
+                       const int32_t min_pulse_width_old, const int32_t min_pulse_width_new,
+                       const int32_t max_pulse_width_old, const int32_t max_pulse_width_new,
+                       const int16_t min_degree_old, const int16_t min_degree_new,
+                       const int16_t max_degree_old, const int16_t max_degree_new);
 
 
 #endif

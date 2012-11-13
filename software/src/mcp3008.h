@@ -1,5 +1,5 @@
 /* servo-brick
- * Copyright (C) 2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2011-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * mcp3008.h: Functions for reading values from mcp3008
  *
@@ -41,8 +41,8 @@
 #define mcp3008_deselect()         USART0->US_CR = US_CR_RCS
 
 void mcp3008_init();
-uint16_t mcp3008_get_value(uint8_t servo);
-uint16_t mcp3008_transceive(uint16_t value);
+uint16_t mcp3008_get_value(const uint8_t servo);
+uint16_t mcp3008_transceive(const uint16_t value);
 
 
 #endif

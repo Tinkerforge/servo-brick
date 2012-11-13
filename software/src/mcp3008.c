@@ -1,5 +1,5 @@
 /* servo-brick
- * Copyright (C) 2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2011-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * mcp3008.c: Functions for reading values from mcp3008
  *
@@ -101,7 +101,7 @@ void USART0_IrqHandler(void) {
 }
 
 // Transfer and Receive 9 bit to/from MCP3008
-inline uint16_t mcp3008_transceive(uint16_t value) {
+inline uint16_t mcp3008_transceive(const uint16_t value) {
 	// Wait for transfer buffer to be empty
 	while((USART0->US_CSR & US_CSR_TXEMPTY) == 0);
 	USART0->US_THR = value;
@@ -113,7 +113,7 @@ inline uint16_t mcp3008_transceive(uint16_t value) {
 
 // Get AD value from ACP3008, use 9 bit mode for most efficient transfer
 // rate (only 1 bit at the end of the communication is wasted)
-uint16_t mcp3008_get_value(uint8_t pos) {
+uint16_t mcp3008_get_value(const uint8_t pos) {
 	mcp3008_select();
 
 	uint16_t value;

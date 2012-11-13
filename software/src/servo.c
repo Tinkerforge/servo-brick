@@ -1,5 +1,5 @@
 /* servo-brick
- * Copyright (C) 2011 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2011-2012 Olaf Lüke <olaf@tinkerforge.com>
  *
  * servo.c: Servo specific functions implementation
  *
@@ -34,6 +34,7 @@
 #include "bricklib/drivers/tc/tc.h"
 #include "bricklib/drivers/pio/pio.h"
 #include "bricklib/drivers/usart/usart.h"
+#include "bricklib/drivers/usb/USBD_HAL.h"
 #include "bricklib/utility/util_definitions.h"
 #include "bricklib/utility/led.h"
 #include "bricklib/utility/init.h"
@@ -266,7 +267,7 @@ bool servo_velocity_reached[SERVO_NUM] = {false,
 extern uint32_t servo_current_counter;
 extern uint32_t servo_current_sum[SERVO_NUM];
 extern ComType com_current;
-extern uint8_t com_stack_id;
+extern uint32_t com_brick_uid;
 
 uint16_t servo_current[SERVO_NUM] = {0};
 uint16_t servo_output_voltage = 0;
@@ -277,14 +278,16 @@ uint32_t tick_message = 0;
 
 Pin pin_voltage_switch = VOLTAGE_STACK_SWITCH_PIN;
 
-int32_t servo_ns_to_pwm(uint8_t servo, int32_t position) {
+int32_t servo_ns_to_pwm(const uint8_t servo, const int32_t position) {
 	return (position/((1000/servo_pwmtc_mult[servo])*2));
 }
 
 void new_connection(void) {
 }
 
-void tick_task(uint8_t tick_type) {
+void tick_task(const uint8_t tick_type) {
+	static int8_t message_counter = 0;
+
 	if(tick_type == TICK_TASK_TYPE_CALCULATION) {
 		tick++;
 		if(tick % 50 == 0) {
@@ -374,6 +377,16 @@ void tick_task(uint8_t tick_type) {
 			}
 		}
 	} else if(tick_type == TICK_TASK_TYPE_MESSAGE) {
+		if(message_counter != -1 && !usbd_hal_is_disabled(IN_EP)) {
+			message_counter++;
+			if(message_counter >= 100) {
+				message_counter = 0;
+				if(brick_init_enumeration(COM_USB)) {
+					com_current = COM_USB;
+					message_counter = -1;
+				}
+			}
+		}
 		tick_message++;
 
 		for(uint8_t i = 0; i < SERVO_NUM; i++) {
@@ -408,12 +421,9 @@ void servo_check_error_signals(void) {
 	   (external_voltage < SERVO_VOLTAGE_EPSILON &&
 	    stack_voltage > SERVO_VOLTAGE_EPSILON &&
 	    stack_voltage < servo_minimum_voltage)) {
-		UnderVoltageSignal uvs = {
-			com_stack_id,
-			TYPE_UNDER_VOLTAGE,
-			sizeof(UnderVoltageSignal),
-			external_voltage < SERVO_VOLTAGE_EPSILON ? stack_voltage : external_voltage
-		};
+		UnderVoltageSignal uvs;
+		com_make_default_header(&uvs, com_brick_uid, sizeof(UnderVoltageSignal), FID_UNDER_VOLTAGE);
+		uvs.voltage = external_voltage < SERVO_VOLTAGE_EPSILON ? stack_voltage : external_voltage;
 
 		send_blocking_with_timeout(&uvs,
 		                           sizeof(UnderVoltageSignal),
@@ -424,41 +434,36 @@ void servo_check_error_signals(void) {
 	}
 }
 
-void servo_position_reached_signal(uint8_t servo) {
-	PositionReachedSignal prs = {
-		com_stack_id,
-		TYPE_POSITION_REACHED,
-		sizeof(PositionReachedSignal),
-		servo,
-		servo_position_orig[servo]
-	};
+void servo_position_reached_signal(const uint8_t servo) {
+	PositionReachedSignal prs;
+	com_make_default_header(&prs, com_brick_uid, sizeof(PositionReachedSignal), FID_POSITION_REACHED);
+	prs.servo    = servo;
+	prs.position = servo_position_orig[servo];
 
 	send_blocking_with_timeout(&prs,
 	                           sizeof(PositionReachedSignal),
 	                           com_current);
 }
 
-void servo_velocity_reached_signal(uint8_t servo) {
-	VelocityReachedSignal vrs = {
-		com_stack_id,
-		TYPE_VELOCITY_REACHED,
-		sizeof(VelocityReachedSignal),
-		servo,
-		servo_velocity_orig[servo]
-	};
+void servo_velocity_reached_signal(const uint8_t servo) {
+	VelocityReachedSignal vrs;
+	com_make_default_header(&vrs, com_brick_uid, sizeof(VelocityReachedSignal), FID_VELOCITY_REACHED);
+	vrs.servo    = servo;
+	vrs.velocity = servo_velocity_orig[servo];
+
 
 	send_blocking_with_timeout(&vrs,
 	                           sizeof(VelocityReachedSignal),
 	                           com_current);
 }
 
-void servo_update_data(uint8_t servo,
-                       int32_t period_length_old, int32_t period_length_new,
-                       int32_t period_old, int32_t period_new,
-                       int32_t min_pulse_width_old, int32_t min_pulse_width_new,
-                       int32_t max_pulse_width_old, int32_t max_pulse_width_new,
-                       int16_t min_degree_old, int16_t min_degree_new,
-                       int16_t max_degree_old, int16_t max_degree_new) {
+void servo_update_data(const uint8_t servo,
+                       const int32_t period_length_old, const int32_t period_length_new,
+                       const int32_t period_old, const int32_t period_new,
+                       const int32_t min_pulse_width_old, const int32_t min_pulse_width_new,
+                       const int32_t max_pulse_width_old, const int32_t max_pulse_width_new,
+                       const int16_t min_degree_old, const int16_t min_degree_new,
+                       const int16_t max_degree_old, const int16_t max_degree_new) {
 	int32_t value_pos;
 	uint32_t value;
 
@@ -546,7 +551,7 @@ void servo_update_data(uint8_t servo,
 	logservod("new maxima: %d, %d\n\r", servo_acceleration_max[servo], servo_velocity_max[servo]);
 }
 
-void servo_update_position(uint8_t servo) {
+void servo_update_position(const uint8_t servo) {
 	if(servo_is_pwm[servo]) {
 		PWMC_SetDutyCycle(PWM,
 		                  servo_pwm_channel[servo],
@@ -685,7 +690,7 @@ void servo_init(void) {
 	mcp3008_init();
 }
 
-void servo_set_period(uint8_t servo, uint16_t period) {
+void servo_set_period(const uint8_t servo, const uint16_t period) {
 	uint32_t div;
 
 	if(servo_is_pwm[servo]) {
@@ -755,17 +760,19 @@ void servo_set_period(uint8_t servo, uint16_t period) {
 	}
 }
 
-uint16_t servo_get_period(uint8_t servo) {
+uint16_t servo_get_period(const uint8_t servo) {
 	return servo_period_length[servo]/1000;
 }
 
-void servo_set_output_voltage(uint16_t voltage) {
+void servo_set_output_voltage(const uint16_t voltage) {
 	Pin pin_power = SERVO_POWER_ENABLE_PIN;
 
+	uint16_t write_voltage = voltage;
+
 	if(voltage < SERVO_MIN_MV) {
-		voltage = SERVO_MIN_MV;
+		write_voltage = SERVO_MIN_MV;
 	} else if(voltage > SERVO_MAX_MV) {
-		voltage = SERVO_MAX_MV;
+		write_voltage = SERVO_MAX_MV;
 	}
 
 	PIO_Clear(&pin_power);
@@ -776,10 +783,10 @@ void servo_set_output_voltage(uint16_t voltage) {
 	DACC_SetConversionData(DACC,
 	                       SERVO_VALUE_2V -
 	                       (SERVO_VALUE_2V - SERVO_VALUE_9V)*
-	                       (voltage - SERVO_MIN_MV)/
+	                       (write_voltage - SERVO_MIN_MV)/
 	                       (SERVO_MAX_MV - SERVO_MIN_MV));
 
-	servo_output_voltage = voltage;
+	servo_output_voltage = write_voltage;
 	for(uint8_t i = 0; i < 10; i++) {
 		__NOP();
 	}
@@ -804,7 +811,7 @@ void servo_enable(uint8_t servo) {
 	servo_update_position(servo);
 }
 
-void servo_disable(uint8_t servo) {
+void servo_disable(const uint8_t servo) {
 	if(servo_is_pwm[servo]) {
 		PWMC_DisableChannel(PWM, servo_pwm_channel[servo]);
 	} else {
