@@ -266,8 +266,8 @@ bool servo_velocity_reached[SERVO_NUM] = {false,
 
 extern uint32_t servo_current_counter;
 extern uint32_t servo_current_sum[SERVO_NUM];
-extern ComType com_current;
-extern uint32_t com_brick_uid;
+
+extern ComInfo com_info;
 
 uint16_t servo_current[SERVO_NUM] = {0};
 uint16_t servo_output_voltage = 0;
@@ -382,7 +382,7 @@ void tick_task(const uint8_t tick_type) {
 			if(message_counter >= 100) {
 				message_counter = 0;
 				if(brick_init_enumeration(COM_USB)) {
-					com_current = COM_USB;
+					com_info.current = COM_USB;
 					message_counter = -1;
 				}
 			}
@@ -422,12 +422,12 @@ void servo_check_error_signals(void) {
 	    stack_voltage > SERVO_VOLTAGE_EPSILON &&
 	    stack_voltage < servo_minimum_voltage)) {
 		UnderVoltageSignal uvs;
-		com_make_default_header(&uvs, com_brick_uid, sizeof(UnderVoltageSignal), FID_UNDER_VOLTAGE);
+		com_make_default_header(&uvs, com_info.uid, sizeof(UnderVoltageSignal), FID_UNDER_VOLTAGE);
 		uvs.voltage = external_voltage < SERVO_VOLTAGE_EPSILON ? stack_voltage : external_voltage;
 
 		send_blocking_with_timeout(&uvs,
 		                           sizeof(UnderVoltageSignal),
-		                           com_current);
+		                           com_info.current);
 		led_on(LED_STD_RED);
 	} else {
 		led_off(LED_STD_RED);
@@ -436,25 +436,25 @@ void servo_check_error_signals(void) {
 
 void servo_position_reached_signal(const uint8_t servo) {
 	PositionReachedSignal prs;
-	com_make_default_header(&prs, com_brick_uid, sizeof(PositionReachedSignal), FID_POSITION_REACHED);
+	com_make_default_header(&prs, com_info.uid, sizeof(PositionReachedSignal), FID_POSITION_REACHED);
 	prs.servo    = servo;
 	prs.position = servo_position_orig[servo];
 
 	send_blocking_with_timeout(&prs,
 	                           sizeof(PositionReachedSignal),
-	                           com_current);
+	                           com_info.current);
 }
 
 void servo_velocity_reached_signal(const uint8_t servo) {
 	VelocityReachedSignal vrs;
-	com_make_default_header(&vrs, com_brick_uid, sizeof(VelocityReachedSignal), FID_VELOCITY_REACHED);
+	com_make_default_header(&vrs, com_info.uid, sizeof(VelocityReachedSignal), FID_VELOCITY_REACHED);
 	vrs.servo    = servo;
 	vrs.velocity = servo_velocity_orig[servo];
 
 
 	send_blocking_with_timeout(&vrs,
 	                           sizeof(VelocityReachedSignal),
-	                           com_current);
+	                           com_info.current);
 }
 
 void servo_update_data(const uint8_t servo,
