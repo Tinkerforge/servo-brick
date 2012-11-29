@@ -10,11 +10,11 @@ $host = 'localhost';
 $port = 4223;
 $uid = '94ANb9AZAwo'; // Change to your UID
 
-$ipcon = new IPConnection($host, $port); // Create IP connection to brickd
-$servo = new BrickServo($uid); // Create device object
+$ipcon = new IPConnection(); // Create IP connection
+$servo = new BrickServo($uid, $ipcon); // Create device object
 
-$ipcon->addDevice($servo); // Add device to IP connection
-// Don't use device before it is added to a connection
+$ipcon->connect($host, $port); // Connect to brickd
+// Don't use device before ipcon is connected
 
 // Configure two servos with voltage 5.5V
 // Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
@@ -44,6 +44,5 @@ $servo->enable(5);
 
 echo "Press key to exit\n";
 fgetc(fopen('php://stdin', 'r'));
-$ipcon->destroy();
 
 ?>

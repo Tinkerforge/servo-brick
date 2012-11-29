@@ -26,11 +26,11 @@ function cb_reached($servoNum, $position)
     }
 }
 
-$ipcon = new IPConnection($host, $port); // Create IP connection to brickd
-$servo = new BrickServo($uid); // Create device object
+$ipcon = new IPConnection(); // Create IP connection
+$servo = new BrickServo($uid, $ipcon); // Create device object
 
-$ipcon->addDevice($servo); // Add device to IP connection
-// Don't use device before it is added to a connection
+$ipcon->connect($host, $port); // Connect to brickd
+// Don't use device before ipcon is connected
 
 // Register "position reached callback" to cb_reached
 // cb_reached will be called every time a position set with
