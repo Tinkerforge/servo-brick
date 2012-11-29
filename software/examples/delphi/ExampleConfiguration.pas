@@ -25,15 +25,15 @@ var
 
 procedure TExample.Execute;
 begin
-  { Create IP connection to brickd }
-  ipcon := TIPConnection.Create(HOST, PORT);
+  { Create IP connection }
+  ipcon := TIPConnection.Create();
 
   { Create device object }
-  servo := TBrickServo.Create(UID);
+  servo := TBrickServo.Create(UID, ipcon);
 
-  { Add device to IP connection }
-  ipcon.AddDevice(servo);
-  { Don't use device before it is added to a connection }
+  { Connect to brickd }
+  ipcon.Connect(HOST, PORT);
+  { Don't use device before ipcon is connected }
 
   { Configure two servos with voltage 5.5V
     Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
@@ -63,7 +63,6 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
-  ipcon.Destroy;
 end;
 
 begin

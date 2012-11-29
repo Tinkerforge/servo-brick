@@ -12,7 +12,7 @@ type
     ipcon: TIPConnection;
     servo: TBrickServo;
   public
-    procedure ReachedCB(const servoNum: byte; const position: smallint);
+    procedure ReachedCB(sender: TObject; const servoNum: byte; const position: smallint);
     procedure Execute;
   end;
 
@@ -25,7 +25,7 @@ var
   e: TExample;
 
 { Use position reached callback to swing back and forth }
-procedure TExample.ReachedCB(const servoNum: byte; const position: smallint);
+procedure TExample.ReachedCB(sender: TObject; const servoNum: byte; const position: smallint);
 begin
   if (position = 9000) then begin
     WriteLn('Position: 90°, going to -90°');
@@ -42,15 +42,15 @@ end;
 
 procedure TExample.Execute;
 begin
-  { Create IP connection to brickd }
-  ipcon := TIPConnection.Create(HOST, PORT);
+  { Create IP connection }
+  ipcon := TIPConnection.Create();
 
   { Create device object }
-  servo := TBrickServo.Create(UID);
+  servo := TBrickServo.Create(UID, ipcon);
 
-  { Add device to IP connection }
-  ipcon.AddDevice(servo);
-  { Don't use device before it is added to a connection }
+  { Connect to brickd }
+  ipcon.Connect(HOST, PORT);
+  { Don't use device before ipcon is connected }
 
   { Register "position reached callback" to procedure ReachedCB.
     ReachedCB will be called every time a position set with
@@ -66,7 +66,6 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
-  ipcon.Destroy;
 end;
 
 begin
