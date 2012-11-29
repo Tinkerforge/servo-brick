@@ -12,16 +12,13 @@ public class ExampleCallback {
 	static BrickServo servo;
 
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
-	//       might normally want to catch are described in the commnents below
+	//       might normally want to catch are described in the documentation
 	public static void main(String args[]) throws Exception {
-		// Create connection to brickd
-		IPConnection ipcon = new IPConnection(host, port); // Can throw IOException
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		servo = new BrickServo(UID, ipcon); // Create device object
 
-		servo = new BrickServo(UID); // Create device object
-
-		// Add device to IP connection
-		ipcon.addDevice(servo); // Can throw IPConnection.TimeoutException
-		// Don't use device before it is added to a connection
+		ipcon.connect(host, port); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		// Add and implement position reached listener 
 		// (called if velocity set by setVelocity is reached)
@@ -48,6 +45,5 @@ public class ExampleCallback {
 		servo.enable((short)0);
 
 		System.console().readLine("Press key to exit\n");
-		ipcon.destroy();
 	}
 }
