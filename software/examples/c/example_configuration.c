@@ -9,23 +9,20 @@
 #define UID "aySDPqVAkmw" // Change to your UID
 
 int main() {
-	// Create IP connection to brickd
+	// Create IP connection
 	IPConnection ipcon;
-	if(ipcon_create(&ipcon, HOST, PORT) < 0) {
-		fprintf(stderr, "Could not create connection\n");
-		exit(1);
-	}
+	ipcon_create(&ipcon);
 
 	// Create device object
 	Servo servo;
-	servo_create(&servo, UID); 
+	servo_create(&servo, UID, &ipcon); 
 
-	// Add device to IP connection
-	if(ipcon_add_device(&ipcon, &servo) < 0) {
-		fprintf(stderr, "Could not connect to Brick\n");
+	// Connect to brickd
+	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
+		fprintf(stderr, "Could not connect\n");
 		exit(1);
 	}
-	// Don't use device before it is added to a connection
+	// Don't use device before ipcon is connected
 
 	// Configure two servos with voltage 5.5V
 	// Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
