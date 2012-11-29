@@ -9,11 +9,11 @@ from tinkerforge.ip_connection import IPConnection
 from tinkerforge.brick_servo import Servo
 
 if __name__ == "__main__":
-    ipcon = IPConnection(HOST, PORT) # Create IP connection to brickd
+    ipcon = IPConnection() # Create IP connection
+    servo = Servo(UID, ipcon) # Create device object
 
-    servo = Servo(UID) # Create device object
-    ipcon.add_device(servo) # Add device to IP connection
-    # Don't use device before it is added to a connection
+    ipcon.connect(HOST, PORT) # Connect to brickd
+    # Don't use device before ipcon is connected
 
     # Configure two servos with voltage 5.5V
     # Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
@@ -42,4 +42,3 @@ if __name__ == "__main__":
     servo.enable(5)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
-    ipcon.destroy()
