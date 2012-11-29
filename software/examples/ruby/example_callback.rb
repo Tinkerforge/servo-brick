@@ -10,10 +10,11 @@ HOST = 'localhost'
 PORT = 4223
 UID = '9oTxLQ3d46C' # Change to your UID
 
-ipcon = IPConnection.new HOST, PORT # Create IP connection to brickd
-servo = BrickServo.new UID # Create device object
-ipcon.add_device servo # Add device to IP connection
-# Don't use device before it is added to a connection
+ipcon = IPConnection.new # Create IP connection
+servo = BrickServo.new UID, ipcon # Create device object
+
+ipcon.connect HOST, PORT # Connect to brickd
+# Don't use device before ipcon is connected
 
 # Use position reached callback to swing back and forth
 servo.register_callback(BrickServo::CALLBACK_POSITION_REACHED) do |servo_num, position|
@@ -37,4 +38,3 @@ servo.enable 0
 
 puts 'Press key to exit'
 $stdin.gets
-ipcon.destroy
