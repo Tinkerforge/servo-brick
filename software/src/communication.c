@@ -59,7 +59,7 @@ void enable(const ComType com, const Enable *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
@@ -89,7 +89,7 @@ void disable(const ComType com, const Disable *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
@@ -133,7 +133,7 @@ void set_position(const ComType com, const SetPosition *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
@@ -219,7 +219,7 @@ void set_velocity(const ComType com, const SetVelocity *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
@@ -289,7 +289,7 @@ void set_acceleration(const ComType com, const SetAcceleration *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
@@ -363,7 +363,7 @@ void set_pulse_width(const ComType com, const SetPulseWidth *data) {
 
 
 	if(data->max_pulse_width < data->min_pulse_width) {
-		com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+		com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 		return;
 	}
 
@@ -376,7 +376,7 @@ void set_pulse_width(const ComType com, const SetPulseWidth *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
@@ -424,7 +424,7 @@ void get_pulse_width(const ComType com, const GetPulseWidth *data) {
 
 void set_degree(const ComType com, const SetDegree *data) {
 	if(data->min_degree > data->max_degree) {
-		com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+		com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 		return;
 	}
 
@@ -437,7 +437,7 @@ void set_degree(const ComType com, const SetDegree *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
@@ -498,7 +498,7 @@ void set_period(const ComType com, const SetPeriod *data) {
 		servo_bitmask = data->servo;
 	} else {
 		if(data->servo >= SERVO_NUM) {
-			com_return_error(data, com, MESSAGE_ERROR_CODE_INVALID_PARAMETER, sizeof(MessageHeader));
+			com_return_error(data, sizeof(MessageHeader), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
 			return;
 		}
 
