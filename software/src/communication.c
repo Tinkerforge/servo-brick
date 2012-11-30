@@ -112,6 +112,11 @@ void disable(const ComType com, const Disable *data) {
 void is_enabled(const ComType com, const IsEnabled *data) {
 	IsEnabledReturn ier;
 
+	if(data->servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(IsEnabledReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
+
 	ier.header        = data->header;
 	ier.header.length = sizeof(IsEnabledReturn);
 	ier.enabled       = servo_enabled[data->servo];
@@ -182,6 +187,11 @@ void get_position(const ComType com, const GetPosition *data) {
 	uint8_t servo = data->servo;
 	GetPositionReturn gpr;
 
+	if(servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetPositionReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
+
 	gpr.header        = data->header;
 	gpr.header.length = sizeof(GetPositionReturn);
 	gpr.position      = servo_position_orig[servo];
@@ -193,6 +203,11 @@ void get_position(const ComType com, const GetPosition *data) {
 void get_current_position(const ComType com, const GetCurrentPosition *data) {
 	uint8_t servo = data->servo;
 	GetCurrentPositionReturn gcpr;
+
+	if(servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetCurrentPositionReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
 
 	gcpr.header        = data->header;
 	gcpr.header.length = sizeof(GetCurrentPositionReturn);
@@ -252,6 +267,11 @@ void get_velocity(const ComType com, const GetVelocity *data) {
 	uint8_t servo = data->servo;
 	GetVelocityReturn gvr;
 
+	if(servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetVelocityReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
+
 	gvr.header        = data->header;
 	gvr.header.length = sizeof(GetVelocityReturn);
 	gvr.velocity      = servo_velocity_orig[servo];
@@ -263,6 +283,11 @@ void get_velocity(const ComType com, const GetVelocity *data) {
 void get_current_velocity(const ComType com, const GetCurrentVelocity *data) {
 	uint8_t servo = data->servo;
 	GetCurrentVelocityReturn gcvr;
+
+	if(servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetCurrentVelocityReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
 
 	gcvr.header        = data->header;
 	gcvr.header.length = sizeof(GetCurrentVelocityReturn);
@@ -329,6 +354,11 @@ void set_acceleration(const ComType com, const SetAcceleration *data) {
 void get_acceleration(const ComType com, const GetAcceleration *data) {
 	uint8_t servo = data->servo;
 	GetAccelerationReturn gar;
+
+	if(servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetAccelerationReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
 
 	gar.header        = data->header;
 	gar.header.length = sizeof(GetAccelerationReturn);
@@ -412,6 +442,11 @@ void set_pulse_width(const ComType com, const SetPulseWidth *data) {
 void get_pulse_width(const ComType com, const GetPulseWidth *data) {
 	GetPulseWidthReturn gpwr;
 
+	if(data->servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetPulseWidthReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
+
 	gpwr.header        = data->header;
 	gpwr.header.length = sizeof(GetPulseWidthReturn);
 	gpwr.max_pulse_width = servo_max_pulse_width[data->servo]/1000;
@@ -468,6 +503,11 @@ void set_degree(const ComType com, const SetDegree *data) {
 
 void get_degree(const ComType com, const GetDegree *data) {
 	GetDegreeReturn gdr;
+
+	if(data->servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetDegreeReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
 
 	gdr.header        = data->header;
 	gdr.header.length = sizeof(GetDegreeReturn);
@@ -532,6 +572,11 @@ void set_period(const ComType com, const SetPeriod *data) {
 void get_period(const ComType com, const GetPeriod *data) {
 	GetPeriodReturn gpr;
 
+	if(data->servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetPeriodReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
+
 	gpr.header        = data->header;
 	gpr.header.length = sizeof(GetPeriodReturn);
 	gpr.period        = servo_get_period(data->servo);
@@ -542,6 +587,11 @@ void get_period(const ComType com, const GetPeriod *data) {
 
 void get_servo_current(const ComType com, const GetServoCurrent *data) {
 	GetServoCurrentReturn gscr;
+
+	if(data->servo >= SERVO_NUM) {
+		com_return_error(data, sizeof(GetServoCurrentReturn), MESSAGE_ERROR_CODE_INVALID_PARAMETER, com);
+		return;
+	}
 
 	gscr.header        = data->header;
 	gscr.header.length = sizeof(GetServoCurrentReturn);
