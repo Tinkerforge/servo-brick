@@ -6,11 +6,10 @@ class Example
 	private static int PORT = 4223;
 	private static string UID = "a4LCMm3K2bS"; // Change to your UID
 
-	private static BrickServo servo;
-
 	// Callback function for distance callback (parameter has unit mm)
-	static void ReachedCB(byte servoNum, short position)
+	static void ReachedCB(object sender, byte servoNum, short position)
 	{
+		BrickServo servo = (BrickServo)sender;
 		if(position == 9000)
 		{
 			System.Console.WriteLine("Position: 90°, going to -90°");
@@ -30,15 +29,16 @@ class Example
 
 	static void Main() 
 	{
-		IPConnection ipcon = new IPConnection(HOST, PORT); // Create connection to brickd
-		servo = new BrickServo(UID); // Create device object
-		ipcon.AddDevice(servo); // Add device to IP connection
-		// Don't use device before it is added to a connection
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		BrickServo servo = new BrickServo(UID, ipcon); // Create device object
+
+		ipcon.Connect(HOST, PORT); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		// Register "position reached callback" to ReachedCB
 		// ReachedCB will be called every time a position set with
 		// SetPosition is reached
-		servo.RegisterCallback(new BrickServo.PositionReached(ReachedCB));
+		servo.PositionReached += ReachedCB;
 
 		// Set velocity to 100°/s. This has to be smaller or equal to 
 		// maximum velocity of the servo, otherwise ReachedCB will be
@@ -49,6 +49,5 @@ class Example
 
 		System.Console.WriteLine("Press key to exit");
 		System.Console.ReadKey();
-		ipcon.Destroy();
 	}
 }

@@ -8,10 +8,11 @@ class Example
 
 	static void Main() 
 	{
-		IPConnection ipcon = new IPConnection(HOST, PORT); // Create connection to brickd
-		BrickServo servo = new BrickServo(UID); // Create device object
-		ipcon.AddDevice(servo); // Add device to IP connection
-		// Don't use device before it is added to a connection
+		IPConnection ipcon = new IPConnection(); // Create IP connection
+		BrickServo servo = new BrickServo(UID, ipcon); // Create device object
+
+		ipcon.Connect(HOST, PORT); // Connect to brickd
+		// Don't use device before ipcon is connected
 
 		// Configure two servos with voltage 5.5V
 		// Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
@@ -41,6 +42,5 @@ class Example
 
 		System.Console.WriteLine("Press key to exit");
 		System.Console.ReadKey();
-		ipcon.Destroy();
 	}
 }
