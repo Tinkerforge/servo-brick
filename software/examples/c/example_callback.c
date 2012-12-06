@@ -10,7 +10,8 @@
 
 // Use position reached callback to swing back and forth
 void cb_reached(uint8_t servo_num, int16_t position, void *user_data) {
-	Servo *servo = (Servo*)user_data;
+	Servo *servo = (Servo *)user_data;
+
 	if(position == 9000) {
 		printf("Position: 90°, going to -90°\n");
 		servo_set_position(servo, servo_num, -9000);
@@ -44,7 +45,7 @@ int main() {
 	servo_register_callback(&servo, 
 	                        SERVO_CALLBACK_POSITION_REACHED, 
 	                        cb_reached,
-							(void*)&servo);
+	                        &servo);
 
 	// Set velocity to 100°/s. This has to be smaller or equal to 
 	// maximum velocity of the servo, otherwise cb_reached will be
