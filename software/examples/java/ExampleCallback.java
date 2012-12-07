@@ -26,10 +26,16 @@ public class ExampleCallback {
 			public void positionReached(short servoNum, short position) {
 				if(position == 9000) {
 					System.out.println("Position: 90°, going to -90°");
-					ExampleCallback.servo.setPosition(servoNum, (short)-9000);
+					try {
+						ExampleCallback.servo.setPosition(servoNum, (short)-9000);
+					} catch(IPConnection.TimeoutException e) {
+					}
 				} else if(position == -9000) {
 					System.out.println("Position: -90°, going to 90°");
-					ExampleCallback.servo.setPosition(servoNum, (short)9000);
+					try {
+						ExampleCallback.servo.setPosition(servoNum, (short)9000);
+					} catch(IPConnection.TimeoutException e) {
+					}
 				} else {
 					// Can only happen if another program sets velocity
 					System.out.println("Error"); 
