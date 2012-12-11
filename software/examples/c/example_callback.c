@@ -44,7 +44,7 @@ int main() {
 	// set_position is reached
 	servo_register_callback(&servo, 
 	                        SERVO_CALLBACK_POSITION_REACHED, 
-	                        cb_reached,
+	                        (void *)cb_reached,
 	                        &servo);
 
 	// Set velocity to 100°/s. This has to be smaller or equal to 
