@@ -11,10 +11,10 @@ $port = 4223;
 $uid = '94ANb9AZAwo'; // Change to your UID
 
 // Use position reached callback to swing back and forth
-function cb_reached($servoNum, $position)
+function cb_reached($servoNum, $position, $userData)
 {
-    global $servo;
-    
+    $servo = $userData;
+
     if ($position == 9000) {
         echo "Position: 90°, going to -90°\n";
         $servo->setPosition($servoNum, -9000);
@@ -35,7 +35,7 @@ $ipcon->connect($host, $port); // Connect to brickd
 // Register "position reached callback" to cb_reached
 // cb_reached will be called every time a position set with
 // set_position is reached
-$servo->registerCallback(BrickServo::CALLBACK_POSITION_REACHED, 'cb_reached');
+$servo->registerCallback(BrickServo::CALLBACK_POSITION_REACHED, 'cb_reached', $servo);
 
 // Set velocity to 100°/s. This has to be smaller or equal to 
 // maximum velocity of the servo, otherwise cb_reached will be
