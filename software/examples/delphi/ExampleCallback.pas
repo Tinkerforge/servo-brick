@@ -12,7 +12,7 @@ type
     ipcon: TIPConnection;
     servo: TBrickServo;
   public
-    procedure ReachedCB(sender: TObject; const servoNum: byte; const position: smallint);
+    procedure ReachedCB(sender: TBrickServo; const servoNum: byte; const position: smallint);
     procedure Execute;
   end;
 
@@ -25,15 +25,15 @@ var
   e: TExample;
 
 { Use position reached callback to swing back and forth }
-procedure TExample.ReachedCB(sender: TObject; const servoNum: byte; const position: smallint);
+procedure TExample.ReachedCB(sender: TBrickServo; const servoNum: byte; const position: smallint);
 begin
   if (position = 9000) then begin
     WriteLn('Position: 90°, going to -90°');
-    servo.SetPosition(servoNum, -9000);
+    sender.SetPosition(servoNum, -9000);
   end
   else if (position = -9000) then begin
     WriteLn('Position: -90°, going to 90°');
-    servo.SetPosition(servoNum, 9000);
+    sender.SetPosition(servoNum, 9000);
   end
   else begin
     WriteLn('Error'); { Can only happen if another program sets position }

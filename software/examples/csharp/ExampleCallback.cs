@@ -7,18 +7,17 @@ class Example
 	private static string UID = "a4LCMm3K2bS"; // Change to your UID
 
 	// Callback function for distance callback (parameter has unit mm)
-	static void ReachedCB(object sender, byte servoNum, short position)
+	static void ReachedCB(BrickServo sender, byte servoNum, short position)
 	{
-		BrickServo servo = (BrickServo)sender;
 		if(position == 9000)
 		{
 			System.Console.WriteLine("Position: 90°, going to -90°");
-			servo.SetPosition(servoNum, -9000);
+			sender.SetPosition(servoNum, -9000);
 		}
 		else if(position == -9000)
 		{
 			System.Console.WriteLine("Position: -90°, going to 90°");
-			servo.SetPosition(servoNum, 9000);
+			sender.SetPosition(servoNum, 9000);
 		}
 		else
 		{
