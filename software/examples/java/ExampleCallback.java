@@ -29,12 +29,14 @@ public class ExampleCallback {
 					try {
 						ExampleCallback.servo.setPosition(servoNum, (short)-9000);
 					} catch(IPConnection.TimeoutException e) {
+					} catch(IPConnection.NotConnectedException e) {
 					}
 				} else if(position == -9000) {
 					System.out.println("Position: -90°, going to 90°");
 					try {
 						ExampleCallback.servo.setPosition(servoNum, (short)9000);
 					} catch(IPConnection.TimeoutException e) {
+					} catch(IPConnection.NotConnectedException e) {
 					}
 				} else {
 					// Can only happen if another program sets velocity
