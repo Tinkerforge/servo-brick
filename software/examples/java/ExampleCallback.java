@@ -20,7 +20,7 @@ public class ExampleCallback {
 
 		// Add and implement position reached listener 
 		// (called if velocity set by setVelocity is reached)
-		servo.addListener(new BrickServo.PositionReachedListener() {
+		servo.addPositionReachedListener(new BrickServo.PositionReachedListener() {
 			public void positionReached(short servoNum, short position) {
 				if(position == 9000) {
 					System.out.println("Position: 90°, going to -90°");
