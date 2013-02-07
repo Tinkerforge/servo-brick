@@ -51,5 +51,6 @@ public class ExampleCallback {
 		servo.enable((short)0);
 
 		System.console().readLine("Press key to exit\n");
+		ipcon.disconnect();
 	}
 }

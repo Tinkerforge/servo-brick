@@ -44,3 +44,4 @@ servo.enable 5
 
 puts 'Press key to exit'
 $stdin.gets
+ipcon.disconnect

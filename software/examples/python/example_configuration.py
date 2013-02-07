@@ -42,3 +42,4 @@ if __name__ == "__main__":
     servo.enable(5)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    ipcon.disconnect()
