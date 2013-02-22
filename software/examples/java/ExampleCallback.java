@@ -1,7 +1,6 @@
 import com.tinkerforge.BrickServo;
 import com.tinkerforge.IPConnection;
-import com.tinkerforge.TimeoutException;
-import com.tinkerforge.NotConnectedException;
+import com.tinkerforge.TinkerforgeException;
 
 public class ExampleCallback {
 	private static final String host = "localhost";
@@ -26,15 +25,13 @@ public class ExampleCallback {
 					System.out.println("Position: 90°, going to -90°");
 					try {
 						servo.setPosition(servoNum, (short)-9000);
-					} catch(TimeoutException e) {
-					} catch(NotConnectedException e) {
+					} catch(TinkerforgeException e) {
 					}
 				} else if(position == -9000) {
 					System.out.println("Position: -90°, going to 90°");
 					try {
 						servo.setPosition(servoNum, (short)9000);
-					} catch(TimeoutException e) {
-					} catch(NotConnectedException e) {
+					} catch(TinkerforgeException e) {
 					}
 				} else {
 					// Can only happen if another program sets velocity
