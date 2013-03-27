@@ -292,19 +292,53 @@ typedef struct {
 typedef struct {
 	MessageHeader header;
 	uint16_t voltage;
-} __attribute__((__packed__)) UnderVoltageSignal;
+} __attribute__((__packed__)) UnderVoltageCallback;
 
 typedef struct {
 	MessageHeader header;
 	uint8_t servo;
 	int16_t position;
-} __attribute__((__packed__)) PositionReachedSignal;
+} __attribute__((__packed__)) PositionReachedCallback;
 
 typedef struct {
 	MessageHeader header;
 	uint8_t servo;
 	int16_t velocity;
-} __attribute__((__packed__)) VelocityReachedSignal;
+} __attribute__((__packed__)) VelocityReachedCallback;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) EnableVelocityReachedCallback;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) DisableVelocityReachedCallback;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) IsVelocityReachedCallbackEnabled;
+
+typedef struct {
+	MessageHeader header;
+	bool enabled;
+} __attribute__((__packed__)) IsVelocityReachedCallbackEnabledReturn;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) EnablePositionReachedCallback;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) DisablePositionReachedCallback;
+
+typedef struct {
+	MessageHeader header;
+} __attribute__((__packed__)) IsPositionReachedCallbackEnabled;
+
+typedef struct {
+	MessageHeader header;
+	bool enabled;
+} __attribute__((__packed__)) IsPositionReachedCallbackEnabledReturn;
 
 void enable(const ComType com, const Enable *data);
 void disable(const ComType com, const Disable *data);
@@ -331,5 +365,11 @@ void get_stack_input_voltage(const ComType com, const GetStackInputVoltage *data
 void get_external_input_voltage(const ComType com, const GetExternalInputVoltage *data);
 void set_minimum_voltage(const ComType com, const SetMinimumVoltage *data);
 void get_minimum_voltage(const ComType com, const GetMinimumVoltage *data);
+void enable_velocity_reached_callback(const ComType com, const EnableVelocityReachedCallback *data);
+void disable_velocity_reached_callback(const ComType com, const DisableVelocityReachedCallback *data);
+void is_velocity_reached_callback_enabled(const ComType com, const IsVelocityReachedCallbackEnabled *data);
+void enable_position_reached_callback(const ComType com, const EnablePositionReachedCallback *data);
+void disable_position_reached_callback(const ComType com, const DisablePositionReachedCallback *data);
+void is_position_reached_callback_enabled(const ComType com, const IsPositionReachedCallbackEnabled *data);
 
 #endif

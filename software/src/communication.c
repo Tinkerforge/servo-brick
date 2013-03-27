@@ -49,6 +49,9 @@ extern uint16_t servo_velocity_orig[];
 extern uint16_t servo_acceleration_orig[];
 extern uint16_t servo_minimum_voltage;
 
+extern bool velocity_reached_callback_enabled;
+extern bool position_reached_callback_enabled;
+
 void enable(const ComType com, const Enable *data) {
 	uint8_t servo_start;
 	uint8_t servo_end;
@@ -654,4 +657,44 @@ void get_minimum_voltage(const ComType com, const GetMinimumVoltage *data) {
 	gmvr.voltage       = servo_minimum_voltage;
 
 	send_blocking_with_timeout(&gmvr, sizeof(GetMinimumVoltageReturn), com);
+}
+
+void enable_velocity_reached_callback(const ComType com, const EnableVelocityReachedCallback *data) {
+	velocity_reached_callback_enabled = true;
+	com_return_setter(com, data);
+}
+
+void disable_velocity_reached_callback(const ComType com, const DisableVelocityReachedCallback *data) {
+	velocity_reached_callback_enabled = false;
+	com_return_setter(com, data);
+}
+
+void is_velocity_reached_callback_enabled(const ComType com, const IsVelocityReachedCallbackEnabled *data) {
+	IsVelocityReachedCallbackEnabledReturn ivrcer;
+
+	ivrcer.header        = data->header;
+	ivrcer.header.length = sizeof(IsVelocityReachedCallbackEnabledReturn);
+	ivrcer.enabled       = velocity_reached_callback_enabled;
+
+	send_blocking_with_timeout(&ivrcer, sizeof(IsVelocityReachedCallbackEnabledReturn), com);
+}
+
+void enable_position_reached_callback(const ComType com, const EnablePositionReachedCallback *data) {
+	position_reached_callback_enabled = true;
+	com_return_setter(com, data);
+}
+
+void disable_position_reached_callback(const ComType com, const DisablePositionReachedCallback *data) {
+	com_return_setter(com, data);
+	position_reached_callback_enabled = false;
+}
+
+void is_position_reached_callback_enabled(const ComType com, const IsPositionReachedCallbackEnabled *data) {
+	IsPositionReachedCallbackEnabledReturn iprcer;
+
+	iprcer.header        = data->header;
+	iprcer.header.length = sizeof(IsPositionReachedCallbackEnabledReturn);
+	iprcer.enabled       = position_reached_callback_enabled;
+
+	send_blocking_with_timeout(&iprcer, sizeof(IsPositionReachedCallbackEnabledReturn), com);
 }

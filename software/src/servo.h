@@ -99,9 +99,9 @@ uint16_t servo_get_output_voltage();
 uint16_t servo_get_external_voltage(void);
 uint16_t servo_get_stack_voltage(void);
 
-void servo_check_error_signals(void);
-void servo_position_reached_signal(const uint8_t servo);
-void servo_velocity_reached_signal(const uint8_t servo);
+void servo_check_error_callbacks(void);
+void servo_position_reached_callback(const uint8_t servo);
+void servo_velocity_reached_callback(const uint8_t servo);
 
 void servo_enable(const uint8_t servo);
 void servo_disable(const uint8_t servo);

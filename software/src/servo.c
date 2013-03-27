@@ -264,6 +264,9 @@ bool servo_velocity_reached[SERVO_NUM] = {false,
                                           false
 };
 
+bool velocity_reached_callback_enabled = false;
+bool position_reached_callback_enabled = false;
+
 extern uint32_t servo_current_counter;
 extern uint32_t servo_current_sum[SERVO_NUM];
 
@@ -391,23 +394,29 @@ void tick_task(const uint8_t tick_type) {
 		}
 		tick_message++;
 
-		for(uint8_t i = 0; i < SERVO_NUM; i++) {
-			if(servo_position_reached[i]) {
-				servo_position_reached[i] = false;
-				servo_position_reached_signal(i);
-			}
-
-			if(servo_velocity_reached[i]) {
-				servo_velocity_reached[i] = false;
-				servo_velocity_reached_signal(i);
+		if(position_reached_callback_enabled) {
+			for(uint8_t i = 0; i < SERVO_NUM; i++) {
+				if(servo_position_reached[i]) {
+					servo_position_reached[i] = false;
+					servo_position_reached_callback(i);
+				}
 			}
 		}
 
-		servo_check_error_signals();
+		if(velocity_reached_callback_enabled) {
+			for(uint8_t i = 0; i < SERVO_NUM; i++) {
+				if(servo_velocity_reached[i]) {
+					servo_velocity_reached[i] = false;
+					servo_velocity_reached_callback(i);
+				}
+			}
+		}
+
+		servo_check_error_callbacks();
 	}
 }
 
-void servo_check_error_signals(void) {
+void servo_check_error_callbacks(void) {
 	if(tick_message % 1000 != 0) {
 		return;
 	}
@@ -423,12 +432,12 @@ void servo_check_error_signals(void) {
 	   (external_voltage < SERVO_VOLTAGE_EPSILON &&
 	    stack_voltage > SERVO_VOLTAGE_EPSILON &&
 	    stack_voltage < servo_minimum_voltage)) {
-		UnderVoltageSignal uvs;
-		com_make_default_header(&uvs, com_info.uid, sizeof(UnderVoltageSignal), FID_UNDER_VOLTAGE);
+		UnderVoltageCallback uvs;
+		com_make_default_header(&uvs, com_info.uid, sizeof(UnderVoltageCallback), FID_UNDER_VOLTAGE);
 		uvs.voltage = external_voltage < SERVO_VOLTAGE_EPSILON ? stack_voltage : external_voltage;
 
 		send_blocking_with_timeout(&uvs,
-		                           sizeof(UnderVoltageSignal),
+		                           sizeof(UnderVoltageCallback),
 		                           com_info.current);
 		led_on(LED_STD_RED);
 	} else {
@@ -436,26 +445,26 @@ void servo_check_error_signals(void) {
 	}
 }
 
-void servo_position_reached_signal(const uint8_t servo) {
-	PositionReachedSignal prs;
-	com_make_default_header(&prs, com_info.uid, sizeof(PositionReachedSignal), FID_POSITION_REACHED);
+void servo_position_reached_callback(const uint8_t servo) {
+	PositionReachedCallback prs;
+	com_make_default_header(&prs, com_info.uid, sizeof(PositionReachedCallback), FID_POSITION_REACHED);
 	prs.servo    = servo;
 	prs.position = servo_position_orig[servo];
 
 	send_blocking_with_timeout(&prs,
-	                           sizeof(PositionReachedSignal),
+	                           sizeof(PositionReachedCallback),
 	                           com_info.current);
 }
 
-void servo_velocity_reached_signal(const uint8_t servo) {
-	VelocityReachedSignal vrs;
-	com_make_default_header(&vrs, com_info.uid, sizeof(VelocityReachedSignal), FID_VELOCITY_REACHED);
+void servo_velocity_reached_callback(const uint8_t servo) {
+	VelocityReachedCallback vrs;
+	com_make_default_header(&vrs, com_info.uid, sizeof(VelocityReachedCallback), FID_VELOCITY_REACHED);
 	vrs.servo    = servo;
 	vrs.velocity = servo_velocity_orig[servo];
 
 
 	send_blocking_with_timeout(&vrs,
-	                           sizeof(VelocityReachedSignal),
+	                           sizeof(VelocityReachedCallback),
 	                           com_info.current);
 }
 
@@ -483,7 +492,7 @@ void servo_update_data(const uint8_t servo,
 	              (int64_t)min_pulse_width_new,
 	              (int64_t)max_pulse_width_new);
 
-	logservod("update position: %d -> %d\n\r", servo_position[servo], value);
+	logservod("update position: %lu -> %lu\n\r", servo_position[servo], value);
 	servo_position[servo] = value;
 
 	// Update position goal
@@ -493,7 +502,7 @@ void servo_update_data(const uint8_t servo,
 	              (int64_t)min_pulse_width_new,
 	              (int64_t)max_pulse_width_new);
 
-	logservod("update position goal: %d -> %d\n\r", servo_position_goal[servo], value);
+	logservod("update position goal: %lu -> %lu\n\r", servo_position_goal[servo], value);
 	servo_position_goal[servo] = value;
 
 	// Get velocity
@@ -510,7 +519,7 @@ void servo_update_data(const uint8_t servo,
 		          0,
 		          (int64_t)(max_pulse_width_new - min_pulse_width_new))/period_new;
 
-	logservod("update velocity: %d -> %d\n\r", servo_velocity[servo], value);
+	logservod("update velocity: %lu -> %lu\n\r", servo_velocity[servo], value);
 	servo_velocity[servo] = value;
 
 	// Update velocity goal
@@ -520,7 +529,7 @@ void servo_update_data(const uint8_t servo,
 		          0,
 		          (int64_t)(max_pulse_width_new - min_pulse_width_new))/period_new;
 
-	logservod("update velocity goal: %d -> %d\n\r", servo_velocity_goal[servo], value);
+	logservod("update velocity goal: %lu -> %lu\n\r", servo_velocity_goal[servo], value);
 	servo_velocity_goal[servo] = value;
 
 
@@ -531,12 +540,12 @@ void servo_update_data(const uint8_t servo,
 		          0,
 		          (int64_t)(max_pulse_width_new - min_pulse_width_new))/(period_new*period_new);
 
-	logservod("update acceleration: %d -> %d\n\r", servo_acceleration[servo], value);
+	logservod("update acceleration: %lu -> %lu\n\r", servo_acceleration[servo], value);
 	servo_acceleration[servo] = value;
 
 
 	// Update maxima
-	logservod("old maxima: %d, %d\n\r", servo_acceleration_max[servo], servo_velocity_max[servo]);
+	logservod("old maxima: %lu, %lu\n\r", servo_acceleration_max[servo], servo_velocity_max[servo]);
 
 	servo_acceleration_max[servo] = SCALE((int64_t)0xffff,
 	                                      0,
@@ -550,7 +559,7 @@ void servo_update_data(const uint8_t servo,
 									  0,
 									  (int64_t)(max_pulse_width_new - min_pulse_width_new))/period_new;
 
-	logservod("new maxima: %d, %d\n\r", servo_acceleration_max[servo], servo_velocity_max[servo]);
+	logservod("new maxima: %lu, %lu\n\r", servo_acceleration_max[servo], servo_velocity_max[servo]);
 }
 
 void servo_update_position(const uint8_t servo) {
