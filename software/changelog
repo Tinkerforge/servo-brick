@@ -7,3 +7,4 @@
 1.1.5: Change Bricklet Context size from 250 to 256 (through bricklib)
 2.0.0: Support for protocol 2.0
 2.0.1: Add enable/disable API or reached callbacks
+2.0.2: Add watchdog timer (restart after 16s of "deadlock")

@@ -1,5 +1,5 @@
 /* servo-brick
- * Copyright (C) 2010-2012 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2010-2013 Olaf Lüke <olaf@tinkerforge.com>
  *
  * main.c: Servo Brick startup code
  *
@@ -38,6 +38,7 @@
 #include "bricklib/bricklet/bricklet_init.h"
 #include "bricklib/drivers/uid/uid.h"
 #include "bricklib/drivers/pio/pio.h"
+#include "bricklib/drivers/wdt/wdt.h"
 #include "bricklib/utility/init.h"
 #include "bricklib/utility/util_definitions.h"
 #include "bricklib/utility/profiling.h"
@@ -62,6 +63,7 @@ int main() {
 	brick_hardware_version[2] = BRICK_HARDWARE_VERSION_REVISION;
 
 	brick_init();
+	wdt_restart();
 
 #ifdef PROFILING
     profiling_init();
@@ -70,6 +72,7 @@ int main() {
     if(usb_is_connected()) {
     	logi("Configure as USB device\n\r");
     	usb_init();
+    	wdt_restart();
 
     	xTaskCreate(usb_message_loop,
     				(signed char *)"usb_ml",
@@ -81,6 +84,7 @@ int main() {
     	logi("Configure as Stack Participant (SPI)\n\r");
     	usb_first_connection = false;
         spi_stack_slave_init();
+        wdt_restart();
 
     	xTaskCreate(spi_stack_slave_message_loop,
     			    (signed char *)"spi_ml",
@@ -91,7 +95,10 @@ int main() {
     }
 
 	servo_init();
+	wdt_restart();
 
 	brick_init_start_tick_task();
+	wdt_restart();
+
 	vTaskStartScheduler();
 }
