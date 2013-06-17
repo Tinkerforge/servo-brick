@@ -6,5 +6,6 @@
 1.1.4: Add support for minimum period of 1us and add USB hotplug support
 1.1.5: Change Bricklet Context size from 250 to 256 (through bricklib)
 2.0.0: Support for protocol 2.0
-2.0.1: Add enable/disable API or reached callbacks
+2.0.1: Add enable/disable API for reached callbacks
 2.0.2: Add watchdog timer (restart after 16s of "deadlock")
+2.0.3: Add missing defines for enable/disable API for reached callbacks

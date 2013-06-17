@@ -1,5 +1,5 @@
 /* servo-brick
- * Copyright (C) 2010-2012 Olaf Lüke <olaf@tinkerforge.com>
+ * Copyright (C) 2010-2013 Olaf Lüke <olaf@tinkerforge.com>
  *
  * communication.h: Implementation of Servo-Brick specific messages
  *
@@ -56,6 +56,12 @@
 #define FID_UNDER_VOLTAGE 26
 #define FID_POSITION_REACHED 27
 #define FID_VELOCITY_REACHED 28
+#define FID_ENABLE_POSITION_REACHED_CALLBACK 29
+#define FID_DISABLE_POSITION_REACHED_CALLBACK 30
+#define FID_IS_POSITION_REACHED_CALLBACK_ENABLED 31
+#define FID_ENABLE_VELOCITY_REACHED_CALLBACK 32
+#define FID_DISABLE_VELOCITY_REACHED_CALLBACK 33
+#define FID_IS_VELOCITY_REACHED_CALLBACK_ENABLED 34
 
 #define COM_MESSAGES_USER \
 	{FID_ENABLE, (message_handler_func_t)enable}, \
@@ -82,7 +88,16 @@
 	{FID_GET_STACK_INPUT_VOLTAGE, (message_handler_func_t)get_stack_input_voltage}, \
 	{FID_GET_EXTERNAL_INPUT_VOLTAGE, (message_handler_func_t)get_external_input_voltage}, \
 	{FID_SET_MINIMUM_VOLTAGE, (message_handler_func_t)set_minimum_voltage}, \
-    {FID_GET_MINIMUM_VOLTAGE, (message_handler_func_t)get_minimum_voltage},
+    {FID_GET_MINIMUM_VOLTAGE, (message_handler_func_t)get_minimum_voltage}, \
+    {FID_UNDER_VOLTAGE, (message_handler_func_t)NULL}, \
+    {FID_POSITION_REACHED, (message_handler_func_t)NULL}, \
+    {FID_VELOCITY_REACHED, (message_handler_func_t)NULL}, \
+    {FID_ENABLE_POSITION_REACHED_CALLBACK, (message_handler_func_t)enable_position_reached_callback}, \
+    {FID_DISABLE_POSITION_REACHED_CALLBACK, (message_handler_func_t)disable_position_reached_callback}, \
+    {FID_IS_POSITION_REACHED_CALLBACK_ENABLED, (message_handler_func_t)is_position_reached_callback_enabled}, \
+    {FID_ENABLE_VELOCITY_REACHED_CALLBACK, (message_handler_func_t)enable_velocity_reached_callback}, \
+    {FID_DISABLE_VELOCITY_REACHED_CALLBACK, (message_handler_func_t)disable_velocity_reached_callback}, \
+    {FID_IS_VELOCITY_REACHED_CALLBACK_ENABLED, (message_handler_func_t)is_velocity_reached_callback_enabled},
 
 typedef struct {
 	MessageHeader header;
