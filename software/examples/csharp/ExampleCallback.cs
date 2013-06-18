@@ -38,6 +38,7 @@ class Example
 		// ReachedCB will be called every time a position set with
 		// SetPosition is reached
 		servo.PositionReached += ReachedCB;
+		servo.EnablePositionReachedCallback();
 
 		// Set velocity to 100°/s. This has to be smaller or equal to 
 		// maximum velocity of the servo, otherwise ReachedCB will be

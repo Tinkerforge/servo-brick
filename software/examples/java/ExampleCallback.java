@@ -40,6 +40,8 @@ public class ExampleCallback {
 			}
 		});
 
+		servo.enablePositionReachedCallback();
+
 		// Set velocity to 100°/s. This has to be smaller or equal to the
 		// maximum velocity of the servo you are using, otherwise the 
 		// velocity reached listener will be called too early

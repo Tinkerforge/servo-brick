@@ -30,6 +30,7 @@ if __name__ == "__main__":
     # cb_reached will be called every time a position set with
     # set_position is reached
     servo.register_callback(servo.CALLBACK_POSITION_REACHED, cb_reached)
+    servo.enable_position_reached_callback()
 
     # Set velocity to 100°/s. This has to be smaller or equal to 
     # maximum velocity of the servo, otherwise cb_reached will be

@@ -36,6 +36,7 @@ $ipcon->connect($host, $port); // Connect to brickd
 // cb_reached will be called every time a position set with
 // set_position is reached
 $servo->registerCallback(BrickServo::CALLBACK_POSITION_REACHED, 'cb_reached', $servo);
+$servo->enablePositionReachedCallback();
 
 // Set velocity to 100°/s. This has to be smaller or equal to 
 // maximum velocity of the servo, otherwise cb_reached will be

@@ -29,6 +29,8 @@ servo.register_callback(BrickServo::CALLBACK_POSITION_REACHED) do |servo_num, po
   end
 end
 
+servo.enable_position_reached_callback
+
 # Set velocity to 100°/s. This has to be smaller or equal to
 # maximum velocity of the servo, otherwise cb_reached will be
 # called too early
