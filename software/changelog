@@ -9,3 +9,4 @@
 2.0.1: Add enable/disable API for reached callbacks
 2.0.2: Add watchdog timer (restart after 16s of "deadlock")
 2.0.3: Add missing defines for enable/disable API for reached callbacks
+2.0.4: Use tick_task to detect usb connect/disconnect instead of interrupt
