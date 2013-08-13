@@ -5,14 +5,14 @@
 uid=XYZ
 
 # enable position reached callback
-tinkerforge call servo-brick $uid enable-position-reached-callback --expect-response
+tinkerforge call servo-brick $uid enable-position-reached-callback
 
 # set velocity to 100°/s. This has to be smaller or equal to
 # maximum velocity of the servo, otherwise cb_reached will be
 # called to early.
-tinkerforge call servo-brick $uid set-velocity --expect-response 0 10000
-tinkerforge call servo-brick $uid set-position --expect-response 0 9000
-tinkerforge call servo-brick $uid enable --expect-response 0
+tinkerforge call servo-brick $uid set-velocity 0 10000
+tinkerforge call servo-brick $uid set-position 0 9000
+tinkerforge call servo-brick $uid enable 0
 
 echo 222
 # use position reached callback to swing back and forth
