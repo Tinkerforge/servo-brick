@@ -14,7 +14,6 @@ tinkerforge call servo-brick $uid set-velocity 0 10000
 tinkerforge call servo-brick $uid set-position 0 9000
 tinkerforge call servo-brick $uid enable 0
 
-echo 222
 # use position reached callback to swing back and forth
 tinkerforge dispatch servo-brick $uid position-reached\
  --execute "if   [ {position} -eq  9000 ];
