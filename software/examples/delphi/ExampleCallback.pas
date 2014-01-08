@@ -56,7 +56,7 @@ begin
     ReachedCB will be called every time a position set with
     SetPosition is reached }
   servo.OnPositionReached := {$ifdef FPC}@{$endif}ReachedCB;
-  servo.EnablePositionReachedCallback();
+  servo.EnablePositionReachedCallback;
 
   { Set velocity to 100°/s. This has to be smaller or equal to
     maximum velocity of the servo, otherwise cb_reached will be
