@@ -8,7 +8,7 @@ use constant PORT => 4223;
 use constant UID => '5VF5vG'; # Change to your UID
 
 my $ipcon = IPConnection->new(); # Create IP connection
-my $servo = BrickServo->new(&UID, $ipcon); # Create device object
+our $servo = BrickServo->new(&UID, $ipcon); # Create device object
 
 # Use position reached callback to swing back and forth
 sub cb_reached
