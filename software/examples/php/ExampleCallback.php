@@ -6,9 +6,9 @@ require_once('Tinkerforge/BrickServo.php');
 use Tinkerforge\IPConnection;
 use Tinkerforge\BrickServo;
 
-$host = 'localhost';
-$port = 4223;
-$uid = '94ANb9AZAwo'; // Change to your UID
+const HOST = 'localhost';
+const PORT = 4223;
+const UID = '94ANb9AZAwo'; // Change to your UID
 
 // Use position reached callback to swing back and forth
 function cb_reached($servoNum, $position, $userData)
@@ -27,9 +27,9 @@ function cb_reached($servoNum, $position, $userData)
 }
 
 $ipcon = new IPConnection(); // Create IP connection
-$servo = new BrickServo($uid, $ipcon); // Create device object
+$servo = new BrickServo(UID, $ipcon); // Create device object
 
-$ipcon->connect($host, $port); // Connect to brickd
+$ipcon->connect(HOST, PORT); // Connect to brickd
 // Don't use device before ipcon is connected
 
 // Register "position reached callback" to cb_reached
