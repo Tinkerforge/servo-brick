@@ -6,7 +6,7 @@ class Example
 	private static int PORT = 4223;
 	private static string UID = "a4LCMm3K2bS"; // Change to your UID
 
-	// Callback function for distance callback (parameter has unit mm)
+	// Use position reached callback to swing back and forth
 	static void ReachedCB(BrickServo sender, byte servoNum, short position)
 	{
 		if(position == 9000)
