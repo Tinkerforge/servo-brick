@@ -1,0 +1,194 @@
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[         0,          0]
+NotebookDataLength[      6777,        193]
+NotebookOptionsPosition[      6344,        172]
+NotebookOutlinePosition[      6682,        187]
+CellTagsIndexPosition[      6639,        184]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{"Needs", "[", "\"\<NETLink`\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"LoadNETAssembly", "[", 
+  RowBox[{"\"\<Tinkerforge\>\"", ",", 
+   RowBox[{
+    RowBox[{"NotebookDirectory", "[", "]"}], "<>", "\"\<../../..\>\""}]}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.600175052949191*^9, 3.600175066601799*^9}, 
+   3.600175102142559*^9, {3.6001753172765293`*^9, 3.600175317946432*^9}, {
+   3.600500538026902*^9, 3.600500561851948*^9}, {3.600506097634747*^9, 
+   3.600506099012146*^9}, 3.600506136278721*^9, {3.60060805238198*^9, 
+   3.600608117803465*^9}, 3.600685373189396*^9}],
+
+Cell[BoxData[{
+ RowBox[{"host", "=", "\"\<localhost\>\""}], "\[IndentingNewLine]", 
+ RowBox[{"port", "=", "4223"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"uid", "=", "\"\<6etgnL\>\""}], 
+  RowBox[{"(*", " ", 
+   RowBox[{"Change", " ", "to", " ", "your", " ", "UID"}], " ", "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Create", " ", "IPConnection", " ", "and", " ", "device", " ", "object"}], 
+   " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{"ipcon", "=", 
+  RowBox[{"NETNew", "[", "\"\<Tinkerforge.IPConnection\>\"", "]"}]}], "\n", 
+ RowBox[{"s", "=", 
+  RowBox[{"NETNew", "[", 
+   RowBox[{"\"\<Tinkerforge.BrickServo\>\"", ",", "uid", ",", "ipcon"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ipcon", "@", 
+   RowBox[{"Connect", "[", 
+    RowBox[{"host", ",", "port"}], "]"}]}], "\n", "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Configure", " ", "two", " ", "servos", " ", "with", " ", "voltage", " ", 
+    "5.5", "V"}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Servo", " ", "1"}], ":", " ", 
+     RowBox[{"Connected", " ", "to", " ", "port", " ", "0"}]}], ",", " ", 
+    RowBox[{"period", " ", "of", " ", "19.5", "ms"}], ",", 
+    RowBox[{
+    "pulse", " ", "width", " ", "of", " ", "1", " ", "to", " ", "2", "ms"}]}],
+    " ", "*)"}], "\n", 
+  RowBox[{"(*", "          ", 
+   RowBox[{
+    RowBox[{"and", " ", "operating", " ", "angle"}], "-", 
+    RowBox[{"100", " ", "to", " ", "100", "\[Degree]"}]}], " ", "*)"}], "\n", 
+  
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Servo", " ", "2"}], ":", " ", 
+     RowBox[{"Connected", " ", "to", " ", "port", " ", "5"}]}], ",", " ", 
+    RowBox[{"period", " ", "of", " ", "20", "ms"}], ",", 
+    RowBox[{"pulse", " ", "width", " ", "of", " ", "0.95"}]}], " ", "*)"}], 
+  "\n", 
+  RowBox[{"(*", "          ", 
+   RowBox[{
+    RowBox[{
+    "to", " ", "1.95", "ms", " ", "and", " ", "operating", " ", "angle"}], 
+    "-", 
+    RowBox[{"90", " ", "to", " ", "90", "\[Degree]"}]}], " ", "*)"}]}], "\n", 
+
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"SetOutputVoltage", "[", "5500", "]"}]}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"s", "@", 
+  RowBox[{"SetDegree", "[", 
+   RowBox[{"0", ",", 
+    RowBox[{"-", "10000"}], ",", "10000"}], "]"}]}], "\n", 
+ RowBox[{"s", "@", 
+  RowBox[{"SetPulseWidth", "[", 
+   RowBox[{"0", ",", "1000", ",", "2000"}], "]"}]}], "\n", 
+ RowBox[{"s", "@", 
+  RowBox[{"SetPeriod", "[", 
+   RowBox[{"0", ",", "19500"}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"SetAcceleration", "[", 
+    RowBox[{"0", ",", "1000"}], "]"}]}], 
+  RowBox[{"(*", " ", 
+   RowBox[{"Slow", " ", "acceleration"}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"SetVelocity", "[", 
+    RowBox[{"0", ",", "65535"}], "]"}]}], 
+  RowBox[{"(*", " ", 
+   RowBox[{"Full", " ", "speed"}], " ", "*)"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"s", "@", 
+  RowBox[{"SetDegree", "[", 
+   RowBox[{"5", ",", 
+    RowBox[{"-", "9000"}], ",", "9000"}], "]"}]}], "\n", 
+ RowBox[{"s", "@", 
+  RowBox[{"SetPulseWidth", "[", 
+   RowBox[{"5", ",", "950", ",", "1950"}], "]"}]}], "\n", 
+ RowBox[{"s", "@", 
+  RowBox[{"SetPeriod", "[", 
+   RowBox[{"5", ",", "20000"}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"SetAcceleration", "[", 
+    RowBox[{"5", ",", "65535"}], "]"}]}], 
+  RowBox[{"(*", " ", 
+   RowBox[{"Full", " ", "acceleration"}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"SetVelocity", "[", 
+    RowBox[{"5", ",", "65535"}], "]"}]}], 
+  RowBox[{"(*", " ", 
+   RowBox[{"Full", " ", "speed"}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"SetPosition", "[", 
+    RowBox[{"0", ",", "10000"}], "]"}]}], 
+  RowBox[{"(*", " ", 
+   RowBox[{"Set", " ", "to", " ", "most", " ", "right", " ", "position"}], 
+   " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"s", "@", 
+    RowBox[{"Enable", "[", "0", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"SetPosition", "[", 
+    RowBox[{"5", ",", 
+     RowBox[{"-", "9000"}]}], "]"}]}], 
+  RowBox[{"(*", " ", 
+   RowBox[{"Set", " ", "to", " ", "most", " ", "left", " ", "position"}], " ",
+    "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"s", "@", 
+   RowBox[{"Enable", "[", "5", "]"}]}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Clean", " ", "up"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{"ipcon", "@", 
+  RowBox[{"Disconnect", "[", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"ReleaseNETObject", "[", "s", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"ReleaseNETObject", "[", "ipcon", "]"}]}], "Input",
+ CellChangeTimes->CompressedData["
+1:eJwdzWkow3EcBvDRcocyLFfI8WKR880SkxeOXKFR1DTXX5hFIiHhhUbDCDOT
+vZAokSPXrEQrihzDyPWSf+OFjJTr9/xefPvUU8/zDZLW51XYcjicIHLwRPIW
+pz5jk6OkMfFQmXUjgaHPR1K4+ztUBdMe5hrgXa6wGQYLklSQa2eehLGWWC1c
+CvBsmyD2zTRSKwcvu6nvLLVmQ2eZJrpurr/AB7WLFU7Vsp9QrCr5hk9XDDV6
+bDZYhzxAEwJlfK4AWiPEkZBJY+OhUfNFvZ9qV0G5IXUYFnqrU3bwP8WcDVO1
+x2IYc1tSBEcVioQ9YtbQSSKUWQM5h9jbkLhBtbLMC679OPKhfZ3wmjknvULe
+DTxM0rOwdvmCanTaGqkhsq8GDRRYHGYg8zg+C0VfLcVaYsKqqBwOhPvIYTuT
+QxU2ZTbBg6JSqvP4xymc7jdewvkwhesL0f99wR36NWt5sMvk4Qsj9dVK2NG5
+OAC5vG0dFHn27cPWvxUTNMmOqOaejPxXYm+6TQH8B76sNEk=
+  "]]
+},
+WindowSize->{1521, 867},
+WindowMargins->{{173, Automatic}, {65, Automatic}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 7, 2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[400, 13, 602, 11, 55, "Input"],
+Cell[1005, 26, 5335, 144, 847, "Input"]
+}
+]
+*)
+
