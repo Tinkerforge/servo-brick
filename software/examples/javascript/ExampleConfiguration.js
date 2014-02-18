@@ -1,12 +1,11 @@
-var IPConnection = require('Tinkerforge/IPConnection');
-var BrickServo = require('Tinkerforge/BrickServo');
+var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
 var UID = '6qCdfo';// Change to your UID
 
-var ipcon = new IPConnection();// Create IP connection
-var servo = new BrickServo(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection();// Create IP connection
+var servo = new Tinkerforge.BrickServo(UID, ipcon);// Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
@@ -15,7 +14,7 @@ ipcon.connect(HOST, PORT,
 );// Connect to brickd
 
 // Don't use device before ipcon is connected
-ipcon.on(IPConnection.CALLBACK_CONNECTED,
+ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         // Configure two servos with voltage 5.5V
         // Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms

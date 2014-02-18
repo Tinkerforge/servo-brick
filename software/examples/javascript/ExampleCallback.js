@@ -1,12 +1,11 @@
-var IPConnection = require('Tinkerforge/IPConnection');
-var BrickServo = require('Tinkerforge/BrickServo');
+var Tinkerforge = require('tinkerforge');
 
 var HOST = 'localhost';
 var PORT = 4223;
 var UID = '6qCdfo';// Change to your UID
 
-var ipcon = new IPConnection();// Create IP connection
-var servo = new BrickServo(UID, ipcon);// Create device object
+var ipcon = new Tinkerforge.IPConnection();// Create IP connection
+var servo = new Tinkerforge.BrickServo(UID, ipcon);// Create device object
 
 ipcon.connect(HOST, PORT,
     function(error) {
@@ -15,7 +14,7 @@ ipcon.connect(HOST, PORT,
 );// Connect to brickd
 
 // Don't use device before ipcon is connected
-ipcon.on(IPConnection.CALLBACK_CONNECTED,
+ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     function(connectReason) {
         servo.enablePositionReachedCallback();
         // Set velocity to 100°/s. This has to be smaller or equal to 
@@ -30,7 +29,7 @@ ipcon.on(IPConnection.CALLBACK_CONNECTED,
 // Register "position reached callback"
 // Callback "position reached callback" will be called every time a position set with
 // set_position is reached
-servo.on(BrickServo.CALLBACK_POSITION_REACHED,
+servo.on(Tinkerforge.BrickServo.CALLBACK_POSITION_REACHED,
     function(servoNum, position) {
         if(position === 9000) {
             console.log('Position: 90°, going to -90°');
