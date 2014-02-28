@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <html>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<head>
-		<title>Tinkerforge | JavaScript Example</title>
-	</head>
-	<body>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <head>
+        <title>Tinkerforge | JavaScript Example</title>
+    </head>
+    <body>
         <div style="text-align:center;">
-		    <h1>Servo Brick Callback Example</h1>
-		    <p>
-			    <input value="localhost" id="host" type="text" size="20">:
-			    <input value="4280" id="port" type="text" size="5">,
-			    <input value="uid" id="uid" type="text" size="5">
-			    <input value="Start Example" id="start" type="button" onclick="startExample();">
-		    </p>
-		    <p>
-			    <textarea id="text" cols="80" rows="24" style="resize:none;">Press "Start Example" to begin ...</textarea>
-		    </p>
+            <h1>Servo Brick Callback Example</h1>
+            <p>
+                <input value="localhost" id="host" type="text" size="20">:
+                <input value="4280" id="port" type="text" size="5">,
+                <input value="uid" id="uid" type="text" size="5">
+                <input value="Start Example" id="start" type="button" onclick="startExample();">
+            </p>
+            <p>
+                <textarea id="text" cols="80" rows="24" style="resize:none;"
+                          >Press "Start Example" to begin ...</textarea>
+            </p>
         <div>
-		<script src="./Tinkerforge.js" type='text/javascript'></script>
-		<script type='text/javascript'>
+        <script src="./Tinkerforge.js" type='text/javascript'></script>
+        <script type='text/javascript'>
             var ipcon;
             var textArea = document.getElementById("text");
-			function startExample() {
+            function startExample() {
                 textArea.value = "";
-				var HOST = document.getElementById("host").value;
-				var PORT = parseInt(document.getElementById("port").value);
-				var UID	= document.getElementById("uid").value;
+                var HOST = document.getElementById("host").value;
+                var PORT = parseInt(document.getElementById("port").value);
+                var UID = document.getElementById("uid").value;
                 if(ipcon !== undefined) {
                     ipcon.disconnect();
                 }
-                ipcon = new Tinkerforge.IPConnection();// Create IP connection
-                var servo = new Tinkerforge.BrickServo(UID, ipcon);// Create device object
+                ipcon = new Tinkerforge.IPConnection(); // Create IP connection
+                var servo = new Tinkerforge.BrickServo(UID, ipcon); // Create device object
                 ipcon.connect(HOST, PORT,
                     function(error) {
-                        textArea.value += 'Error: '+error+ '\n';        
+                        textArea.value += 'Error: '+error+ '\n';
                     }
-                );// Connect to brickd
-
+                ); // Connect to brickd
                 // Don't use device before ipcon is connected
+
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
                     function(connectReason) {
                         servo.enablePositionReachedCallback();
-                        // Set velocity to 100°/s. This has to be smaller or equal to 
+                        // Set velocity to 100°/s. This has to be smaller or equal to
                         // maximum velocity of the servo, otherwise cb_reached will be
                         // called too early
-                        servo.setVelocity(0, 10000); 
+                        servo.setVelocity(0, 10000);
                         servo.setPosition(0, 9000);
-                        servo.enable(0);  
+                        servo.enable(0);
                     }
                 );
                 // Register "position reached callback"
@@ -63,14 +64,13 @@
                             servo.setPosition(servoNum, 9000);
                         }
                         else {
-                            textArea.value += 'Error\n';// Can only happen if another program sets position
+                            textArea.value += 'Error\n'; // Can only happen if another program sets position
                         }
-						textArea.value += '\n';
-						textArea.scrollTop = textArea.scrollHeight;
+                        textArea.value += '\n';
+                        textArea.scrollTop = textArea.scrollHeight;
                     }
                 );
-			}
-		</script>
-	</body>
+            }
+        </script>
+    </body>
 </html>
-
