@@ -3,8 +3,8 @@ import com.tinkerforge.IPConnection;
 import com.tinkerforge.TinkerforgeException;
 
 public class ExampleCallback {
-	private static final String host = "localhost";
-	private static final int port = 4223;
+	private static final String HOST = "localhost";
+	private static final int PORT = 4223;
 	private static final String UID = "a4LCMm3K2bS"; // Change to your UID
 
 	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
@@ -14,7 +14,7 @@ public class ExampleCallback {
 		// Note: Declare servo final, so the listener can access it
 		final BrickServo servo = new BrickServo(UID, ipcon); // Create device object
 
-		ipcon.connect(host, port); // Connect to brickd
+		ipcon.connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
 
 		// Add and implement position reached listener 
