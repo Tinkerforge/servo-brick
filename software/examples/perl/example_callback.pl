@@ -17,17 +17,17 @@ sub cb_reached
 
     if ($position == 9000)
     {
-        print "\nPosition: 90°, going to -90°\n";
+        print "Position: 90°, going to -90°\n";
         $servo->set_position($servo_num, -9000);
     }
     elsif ($position == -9000)
     {
-        print "\nPosition: -90°, going to 90°\n";
+        print "Position: -90°, going to 90°\n";
         $servo->set_position($servo_num, 9000);
     }
     else
     {
-        print "\nError\n"; # Can only happen if another program sets position
+        print "Error\n"; # Can only happen if another program sets position
     }
 }
 
@@ -47,7 +47,7 @@ $servo->set_velocity(0, 10000) ;
 $servo->set_position(0, 9000);
 $servo->enable(0);
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
 

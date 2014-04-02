@@ -39,7 +39,7 @@ $servo->enable(0);
 $servo->set_position(5, -9000); # Set to most left position
 $servo->enable(5);
 
-print "\nPress any key to exit...\n";
+print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
 
