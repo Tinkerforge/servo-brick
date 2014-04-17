@@ -37,6 +37,6 @@ function octave_example_configuration
     servo.setPosition(5, -9000); % Set to most left position
     servo.enable(5);
 
-    input("\nPress any key to exit...\n", "s");
+    input("Press any key to exit...\n", "s");
     ipcon.disconnect();
 end
