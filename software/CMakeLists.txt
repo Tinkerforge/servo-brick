@@ -17,6 +17,8 @@ SET(DEBUG "")
 SET(TRACE_LEVEL 0)
 SET(CMAKE_BUILD_TYPE None)
 
+#SET(USE_SPI_DMA 1)
+
 INCLUDE_DIRECTORIES(
 	"${PROJECT_SOURCE_DIR}/src/"
 )
@@ -79,14 +81,24 @@ SET(SOURCES
 	"${PROJECT_SOURCE_DIR}/src/bricklib/com/usb/usb_callbacks.c"
 	"${PROJECT_SOURCE_DIR}/src/bricklib/com/usb/usb.c"
 	"${PROJECT_SOURCE_DIR}/src/bricklib/com/com_common.c"
-	"${PROJECT_SOURCE_DIR}/src/bricklib/com/spi/spi_stack/spi_stack_common.c"
-	"${PROJECT_SOURCE_DIR}/src/bricklib/com/spi/spi_stack/spi_stack_slave.c"
 	"${PROJECT_SOURCE_DIR}/src/bricklib/bricklet/bricklet_communication.c"
 	"${PROJECT_SOURCE_DIR}/src/bricklib/bricklet/bricklet_init.c"
 	"${PROJECT_SOURCE_DIR}/src/main.c"
 	"${PROJECT_SOURCE_DIR}/src/servo.c"
 	"${PROJECT_SOURCE_DIR}/src/mcp3008.c"
 )
+
+IF(USE_SPI_DMA)
+LIST(APPEND SOURCES
+	"${PROJECT_SOURCE_DIR}/src/bricklib/com/spi/spi_stack/spi_stack_common_dma.c"
+	"${PROJECT_SOURCE_DIR}/src/bricklib/com/spi/spi_stack/spi_stack_slave_dma.c"
+)
+ELSE()
+LIST(APPEND SOURCES
+	"${PROJECT_SOURCE_DIR}/src/bricklib/com/spi/spi_stack/spi_stack_common.c"
+	"${PROJECT_SOURCE_DIR}/src/bricklib/com/spi/spi_stack/spi_stack_slave.c"
+)
+ENDIF()
 
 MESSAGE(STATUS "\nFound following source files:\n ${SOURCES}\n")
 
