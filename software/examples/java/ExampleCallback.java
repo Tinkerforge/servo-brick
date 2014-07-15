@@ -49,7 +49,7 @@ public class ExampleCallback {
 		servo.setPosition((short)0, (short)9000);
 		servo.enable((short)0);
 
-		System.console().readLine("Press key to exit\n");
+		System.out.println("Press key to exit"); System.in.read();
 		ipcon.disconnect();
 	}
 }

@@ -41,7 +41,7 @@ public class ExampleConfiguration {
 		servo.setPosition((short)5, (short)-9000); // Set to most left position
 		servo.enable((short)5);
 
-		System.console().readLine("Press key to exit\n");
+		System.out.println("Press key to exit"); System.in.read();
 		ipcon.disconnect();
 	}
 }
