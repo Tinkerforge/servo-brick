@@ -31,7 +31,7 @@ Module ExampleCallback
         ' SetPosition is reached
         AddHandler servo.PositionReached, AddressOf ReachedCB
 
-		servo.EnablePositionReachedCallback()
+        servo.EnablePositionReachedCallback()
 
         ' Set velocity to 100°/s. This has to be smaller or equal to
         ' maximum velocity of the servo, otherwise ReachedCB will be
@@ -41,7 +41,7 @@ Module ExampleCallback
         servo.Enable(0)
 
         System.Console.WriteLine("Press key to exit")
-        System.Console.ReadKey()
+        System.Console.ReadLine()
         ipcon.Disconnect()
     End Sub
 End Module
