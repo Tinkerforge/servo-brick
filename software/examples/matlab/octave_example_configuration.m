@@ -1,6 +1,6 @@
 function octave_example_configuration()
     more off;
-    
+
     HOST = "localhost";
     PORT = 4223;
     UID = "5VF5vG"; % Change to your UID
@@ -15,7 +15,7 @@ function octave_example_configuration()
     % Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
     %          and operating angle -100 to 100°
     %
-    % Servo 2: Connected to port 5, period of 20ms, pulse width of 0.95 
+    % Servo 2: Connected to port 5, period of 20ms, pulse width of 0.95
     %          to 1.95ms and operating angle -90 to 90°
     servo.setOutputVoltage(5500);
 

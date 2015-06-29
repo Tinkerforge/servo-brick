@@ -1,6 +1,6 @@
 function octave_example_callback()
     more off;
-    
+
     HOST = "localhost";
     PORT = 4223;
     UID = "5VF5vG"; % Change to your UID
@@ -17,10 +17,10 @@ function octave_example_callback()
     servo.addPositionReachedCallback(@cb_reached);
     servo.enablePositionReachedCallback();
 
-    % Set velocity to 100°/s. This has to be smaller or equal to 
+    % Set velocity to 100°/s. This has to be smaller or equal to
     % maximum velocity of the servo, otherwise cb_reached will be
     % called too early
-    servo.setVelocity(0, 10000); 
+    servo.setVelocity(0, 10000);
     servo.setPosition(0, 9000);
     servo.enable(0);
 
@@ -31,13 +31,23 @@ end
 % Use position reached callback to swing back and forth
 function cb_reached(e)
     servo = e.getSource();
-    if str2double(e.position.toString()) == 9000
+    position = short2int(e.position);
+
+    if position == 9000
         fprintf("Position: 90°, going to -90°\n");
-        servo.setPosition(e.servoNum, -9000);
-    elseif str2double(e.position.toString()) == -9000
+        servo.setPosition(short2int(e.servoNum), -9000);
+    elseif position == -9000
         fprintf("Position: -90°, going to 90°\n");
-        servo.setPosition(e.servoNum, 9000);
+        servo.setPosition(short2int(e.servoNum), 9000);
     else
         fprintf("Error\n"); % Can only happen if another program sets position
+    end
+end
+
+function int = short2int(short)
+    if compare_versions(version(), "3.8", "<=")
+        int = short.intValue();
+    else
+        int = short;
     end
 end
