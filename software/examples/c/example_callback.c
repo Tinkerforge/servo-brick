@@ -46,7 +46,7 @@ int main() {
 	                        (void *)cb_reached,
 	                        &servo);
 
-	servo_enable_position_reached_callback(&s);
+	servo_enable_position_reached_callback(&servo);
 
 	// Set velocity to 100°/s. This has to be smaller or equal to
 	// maximum velocity of the servo, otherwise cb_reached will be
