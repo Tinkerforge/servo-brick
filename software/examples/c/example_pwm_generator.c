@@ -22,8 +22,8 @@ int main() {
 	ipcon_create(&ipcon);
 
 	// Create device object
-	Servo s;
-	servo_create(&s, UID, &ipcon);
+	Servo servo;
+	servo_create(&servo, UID, &ipcon);
 
 	// Connect to brickd
 	if(ipcon_connect(&ipcon, HOST, PORT) < 0) {
@@ -34,7 +34,7 @@ int main() {
 
 	// Set degree range to 0-100, this will allow to
 	// set the PWM duty cycle in 1% steps
-	servo_set_degree(&s, 0, 0, 100);
+	servo_set_degree(&servo, 0, 0, 100);
 
 	// Set PWM frequency (1-65535µs == 1MHz-15Hz)
 	int period = 1000000 / PWM_FREQUENCY;
@@ -45,12 +45,12 @@ int main() {
 		period = 65535; // ~15Hz
 	}
 
-	servo_set_pulse_width(&s, 0, 0, period);
-	servo_set_period(&s, 0, period);
+	servo_set_pulse_width(&servo, 0, 0, period);
+	servo_set_period(&servo, 0, period);
 
 	// Fast acceleration and full speed
-	servo_set_acceleration(&s, 0, 65535);
-	servo_set_velocity(&s, 0, 65535);
+	servo_set_acceleration(&servo, 0, 65535);
+	servo_set_velocity(&servo, 0, 65535);
 
 	// Set PWM duty cycle (0-100 %)
 	int position = PWM_DUTY_CYCLE;
@@ -61,10 +61,10 @@ int main() {
 		position = 100;
 	}
 
-	servo_set_position(&s, 0, position);
+	servo_set_position(&servo, 0, position);
 
 	// Enable PWM signal
-	servo_enable(&s, 0);
+	servo_enable(&servo, 0);
 
 	printf("Press key to exit\n");
 	getchar();

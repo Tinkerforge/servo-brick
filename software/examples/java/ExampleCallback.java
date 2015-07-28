@@ -11,7 +11,7 @@ public class ExampleCallback {
 	//       might normally want to catch are described in the documentation
 	public static void main(String args[]) throws Exception {
 		IPConnection ipcon = new IPConnection(); // Create IP connection
-		final BrickServo s = new BrickServo(UID, ipcon); // Create device object
+		final BrickServo servo = new BrickServo(UID, ipcon); // Create device object
 
 		ipcon.connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
@@ -23,13 +23,13 @@ public class ExampleCallback {
 				if(position == 9000) {
 					System.out.println("Position: 90°, going to -90°");
 					try {
-						s.setPosition(servoNum, (short)-9000);
+						servo.setPosition(servoNum, (short)-9000);
 					} catch(TinkerforgeException e) {
 					}
 				} else if(position == -9000) {
 					System.out.println("Position: -90°, going to 90°");
 					try {
-						s.setPosition(servoNum, (short)9000);
+						servo.setPosition(servoNum, (short)9000);
 					} catch(TinkerforgeException e) {
 					}
 				} else {
@@ -39,14 +39,14 @@ public class ExampleCallback {
 			}
 		});
 
-		s.enablePositionReachedCallback();
+		servo.enablePositionReachedCallback();
 
 		// Set velocity to 100°/s. This has to be smaller or equal to the
 		// maximum velocity of the servo you are using, otherwise the
 		// velocity reached listener will be called too early
-		s.setVelocity((short)0, 10000);
-		s.setPosition((short)0, (short)9000);
-		s.enable((short)0);
+		servo.setVelocity((short)0, 10000);
+		servo.setPosition((short)0, (short)9000);
+		servo.enable((short)0);
 
 		System.out.println("Press key to exit"); System.in.read();
 		ipcon.disconnect();

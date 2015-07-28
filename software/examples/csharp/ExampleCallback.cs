@@ -29,7 +29,7 @@ class Example
 	static void Main()
 	{
 		IPConnection ipcon = new IPConnection(); // Create IP connection
-		BrickServo s = new BrickServo(UID, ipcon); // Create device object
+		BrickServo servo = new BrickServo(UID, ipcon); // Create device object
 
 		ipcon.Connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
@@ -37,15 +37,15 @@ class Example
 		// Register "position reached callback" to ReachedCB
 		// ReachedCB will be called every time a position set with
 		// SetPosition is reached
-		s.PositionReached += ReachedCB;
-		s.EnablePositionReachedCallback();
+		servo.PositionReached += ReachedCB;
+		servo.EnablePositionReachedCallback();
 
 		// Set velocity to 100°/s. This has to be smaller or equal to 
 		// maximum velocity of the servo, otherwise ReachedCB will be
 		// called too early
-		s.SetVelocity(0, 10000);
-		s.SetPosition(0, 9000);
-		s.Enable(0);
+		servo.SetVelocity(0, 10000);
+		servo.SetPosition(0, 9000);
+		servo.Enable(0);
 
 		System.Console.WriteLine("Press enter to exit");
 		System.Console.ReadLine();
