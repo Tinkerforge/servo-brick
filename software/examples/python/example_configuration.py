@@ -27,13 +27,13 @@ if __name__ == "__main__":
     servo.set_pulse_width(0, 1000, 2000)
     servo.set_period(0, 19500)
     servo.set_acceleration(0, 1000) # Slow acceleration
-    servo.set_velocity(0, 0xFFFF) # Full speed
+    servo.set_velocity(0, 65535) # Full speed
 
     servo.set_degree(5, -9000, 9000)
     servo.set_pulse_width(5, 950, 1950)
     servo.set_period(5, 20000)
-    servo.set_acceleration(5, 0xFFFF) # Full acceleration
-    servo.set_velocity(5, 0xFFFF) # Full speed
+    servo.set_acceleration(5, 65535) # Full acceleration
+    servo.set_velocity(5, 65535) # Full speed
 
     servo.set_position(0, 10000) # Set to most right position
     servo.enable(0)
@@ -42,4 +42,6 @@ if __name__ == "__main__":
     servo.enable(5)
 
     raw_input('Press key to exit\n') # Use input() in Python 3
+    servo.disable(0)
+    servo.disable(5)
     ipcon.disconnect()
