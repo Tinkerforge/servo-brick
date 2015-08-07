@@ -6,11 +6,11 @@ PORT = 4223
 UID = "XYZ" # Change to your UID
 
 from tinkerforge.ip_connection import IPConnection
-from tinkerforge.brick_servo import Servo
+from tinkerforge.brick_servo import BrickServo
 
 if __name__ == "__main__":
     ipcon = IPConnection() # Create IP connection
-    servo = Servo(UID, ipcon) # Create device object
+    servo = BrickServo(UID, ipcon) # Create device object
 
     ipcon.connect(HOST, PORT) # Connect to brickd
     # Don't use device before ipcon is connected
