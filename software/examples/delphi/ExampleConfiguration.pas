@@ -18,7 +18,7 @@ type
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = '9eitci17HNS'; { Change to your UID }
+  UID = 'XYZ'; { Change to your UID }
 
 var
   e: TExample;
@@ -47,13 +47,13 @@ begin
   servo.SetPulseWidth(0, 1000, 2000);
   servo.SetPeriod(0, 19500);
   servo.SetAcceleration(0, 1000); { Slow acceleration }
-  servo.SetVelocity(0, $FFFF); { Full speed }
+  servo.SetVelocity(0, 65535); { Full speed }
 
   servo.SetDegree(5, -9000, 9000);
   servo.SetPulseWidth(5, 950, 1950);
   servo.SetPeriod(5, 20000);
-  servo.SetAcceleration(5, $FFFF); { Full acceleration }
-  servo.SetVelocity(5, $FFFF); { Full speed }
+  servo.SetAcceleration(5, 65535); { Full acceleration }
+  servo.SetVelocity(5, 65535); { Full speed }
 
   servo.SetPosition(0, 10000); { Set to most right position }
   servo.Enable(0);
@@ -63,6 +63,8 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
+  servo.Disable(0);
+  servo.Disable(5);
   ipcon.Destroy; { Calls ipcon.Disconnect internally }
 end;
 
