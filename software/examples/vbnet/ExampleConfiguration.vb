@@ -3,7 +3,7 @@ Imports Tinkerforge
 Module ExampleConfiguration
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "6wywsn" ' Change to your UID
+    Const UID As String = "XYZ" ' Change to your UID
 
     Sub Main()
         Dim ipcon As New IPConnection() ' Create IP connection
@@ -24,13 +24,13 @@ Module ExampleConfiguration
         servo.SetPulseWidth(0, 1000, 2000)
         servo.SetPeriod(0, 19500)
         servo.SetAcceleration(0, 1000) ' Slow acceleration
-        servo.SetVelocity(0, &HFFFF) ' Full speed
+        servo.SetVelocity(0, 65535) ' Full speed
 
         servo.SetDegree(5, -9000, 9000)
         servo.SetPulseWidth(5, 950, 1950)
         servo.SetPeriod(5, 20000)
-        servo.SetAcceleration(5, &HFFFF) ' Full acceleration
-        servo.SetVelocity(5, &HFFFF) ' Full speed
+        servo.SetAcceleration(5, 65535) ' Full acceleration
+        servo.SetVelocity(5, 65535) ' Full speed
 
         servo.SetPosition(0, 10000) ' Set to most right position
         servo.Enable(0)
@@ -40,6 +40,8 @@ Module ExampleConfiguration
 
         System.Console.WriteLine("Press key to exit")
         System.Console.ReadLine()
+        servo.Disable(0)
+        servo.Disable(5)
         ipcon.Disconnect()
     End Sub
 End Module
