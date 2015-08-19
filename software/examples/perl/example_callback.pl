@@ -1,11 +1,11 @@
-#!/usr/bin/perl  
+#!/usr/bin/perl
 
 use Tinkerforge::IPConnection;
 use Tinkerforge::BrickServo;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => '5VF5vG'; # Change to your UID
+use constant UID => 'XYZ'; # Change to your UID
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 our $servo = Tinkerforge::BrickServo->new(&UID, $ipcon); # Create device object
@@ -50,4 +50,3 @@ $servo->enable(0);
 print "Press any key to exit...\n";
 <STDIN>;
 $ipcon->disconnect();
-
