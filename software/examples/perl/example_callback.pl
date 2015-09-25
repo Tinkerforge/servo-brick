@@ -5,13 +5,13 @@ use Tinkerforge::BrickServo;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'XYZ'; # Change to your UID
+use constant UID => 'XXYYZZ'; # Change to your UID
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 our $servo = Tinkerforge::BrickServo->new(&UID, $ipcon); # Create device object
 
 # Use position reached callback to swing back and forth
-sub cb_reached
+sub cb_position_reached
 {
     my ($servo_num, $position) = @_;
 
@@ -34,19 +34,20 @@ sub cb_reached
 $ipcon->connect(&HOST, &PORT); # Connect to brickd
 # Don't use device before ipcon is connected
 
-# Register "position reached callback" to cb_reached
-# cb_reached will be called every time a position set with
-# set_position is reached
-$servo->register_callback($servo->CALLBACK_POSITION_REACHED, 'cb_reached');
+# Register position reached callback to subroutine cb_position_reached
+$servo->register_callback($servo->CALLBACK_POSITION_REACHED, 'cb_position_reached');
+
+# Enable position reached callback
 $servo->enable_position_reached_callback();
 
-# Set velocity to 100°/s. This has to be smaller or equal to 
-# maximum velocity of the servo, otherwise cb_reached will be
-# called too early
-$servo->set_velocity(0, 10000) ;
+# Set velocity to 100°/s. This has to be smaller or equal to the
+# maximum velocity of the servo you are using, otherwise the position
+# reached callback will be called too early
+$servo->set_velocity(0, 10000);
 $servo->set_position(0, 9000);
 $servo->enable(0);
 
-print "Press any key to exit...\n";
+print "Press key to exit\n";
 <STDIN>;
+$servo->disable(0);
 $ipcon->disconnect();

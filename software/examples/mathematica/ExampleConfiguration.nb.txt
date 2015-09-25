@@ -3,39 +3,43 @@ LoadNETAssembly["Tinkerforge",NotebookDirectory[]<>"../../.."]
 
 host="localhost"
 port=4223
-uid="6etgnL"(* Change to your UID *)
+uid="XXYYZZ"(*Change to your UID*)
 
-(* Create IPConnection and device object *)
+(*Create IPConnection and device object*)
 ipcon=NETNew["Tinkerforge.IPConnection"]
-s=NETNew["Tinkerforge.BrickServo",uid,ipcon]
+servo=NETNew["Tinkerforge.BrickServo",uid,ipcon]
 ipcon@Connect[host,port]
 
-(* Configure two servos with voltage 5.5V *)
-(* Servo 1: Connected to port 0, period of 19.5ms,pulse width of 1 to 2ms *)
-(*          and operating angle-100 to 100° *)
-(* Servo 2: Connected to port 5, period of 20ms,pulse width of 0.95 *)
-(*          to 1.95ms and operating angle-90 to 90° *)
-s@SetOutputVoltage[5500]
+(*Configure two servos with voltage 5.5V*)
+(*Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms*)
+(*         and operating angle -100 to 100°*)
+(*Servo 2: Connected to port 5, period of 20ms, pulse width of 0.95 *)
+(*         to 1.95ms and operating angle -90 to 90°*)
+servo@SetOutputVoltage[5500]
 
-s@SetDegree[0,-10000,10000]
-s@SetPulseWidth[0,1000,2000]
-s@SetPeriod[0,19500]
-s@SetAcceleration[0,1000](* Slow acceleration *)
-s@SetVelocity[0,65535](* Full speed *)
+servo@SetDegree[0,-10000,10000]
+servo@SetPulseWidth[0,1000,2000]
+servo@SetPeriod[0,19500]
+servo@SetAcceleration[0,1000](*Slow acceleration*)
+servo@SetVelocity[0,65535](*Full speed*)
 
-s@SetDegree[5,-9000,9000]
-s@SetPulseWidth[5,950,1950]
-s@SetPeriod[5,20000]
-s@SetAcceleration[5,65535](* Full acceleration *)
-s@SetVelocity[5,65535](* Full speed *)
+servo@SetDegree[5,-9000,9000]
+servo@SetPulseWidth[5,950,1950]
+servo@SetPeriod[5,20000]
+servo@SetAcceleration[5,65535](*Full acceleration*)
+servo@SetVelocity[5,65535](*Full speed*)
 
-s@SetPosition[0,10000](* Set to most right position *)
-s@Enable[0];
+servo@SetPosition[0,10000](*Set to most right position*)
+servo@Enable[0]
 
-s@SetPosition[5,-9000](* Set to most left position *)
-s@Enable[5]
+servo@SetPosition[5,-9000](*Set to most left position*)
+servo@Enable[5]
 
-(* Clean up *)
+Input["Click OK to exit"]
+
+(*Clean up*)
+servo@Disable[0]
+servo@Disable[5]
 ipcon@Disconnect[]
-ReleaseNETObject[s]
+ReleaseNETObject[servo]
 ReleaseNETObject[ipcon]

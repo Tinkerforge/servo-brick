@@ -3,7 +3,7 @@
 
 HOST = "localhost"
 PORT = 4223
-UID = "XYZ" # Change to your UID
+UID = "XXYYZZ" # Change to your UID
 
 from tinkerforge.ip_connection import IPConnection
 from tinkerforge.brick_servo import BrickServo
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     servo.set_position(5, -9000) # Set to most left position
     servo.enable(5)
 
-    raw_input('Press key to exit\n') # Use input() in Python 3
+    raw_input("Press key to exit\n") # Use input() in Python 3
     servo.disable(0)
     servo.disable(5)
     ipcon.disconnect()

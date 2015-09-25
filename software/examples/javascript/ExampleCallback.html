@@ -34,27 +34,29 @@
                 var servo = new Tinkerforge.BrickServo(UID, ipcon); // Create device object
                 ipcon.connect(HOST, PORT,
                     function(error) {
-                        textArea.value += 'Error: '+error+ '\n';
+                        textArea.value += 'Error: ' + error + '\n';
                     }
                 ); // Connect to brickd
                 // Don't use device before ipcon is connected
 
                 ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
-                    function(connectReason) {
+                    function (connectReason) {
+                        // Enable position reached callback
                         servo.enablePositionReachedCallback();
-                        // Set velocity to 100°/s. This has to be smaller or equal to
-                        // maximum velocity of the servo, otherwise cb_reached will be
-                        // called too early
+
+                        // Set velocity to 100°/s. This has to be smaller or equal to the
+                        // maximum velocity of the servo you are using, otherwise the position
+                        // reached callback will be called too early
                         servo.setVelocity(0, 10000);
                         servo.setPosition(0, 9000);
                         servo.enable(0);
                     }
                 );
-                // Register "position reached callback"
-                // Callback "position reached callback" will be called every time a position set with
-                // set_position is reached
+
+                // Register position reached callback
                 servo.on(Tinkerforge.BrickServo.CALLBACK_POSITION_REACHED,
-                    function(servoNum, position) {
+                    // Use position reached callback to swing back and forth
+                    function (servoNum, position) {
                         if(position === 9000) {
                             textArea.value += 'Position: 90°, going to -90°\n';
                             servo.setPosition(servoNum, -9000);

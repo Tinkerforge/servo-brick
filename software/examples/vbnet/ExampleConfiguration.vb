@@ -1,9 +1,10 @@
+Imports System
 Imports Tinkerforge
 
 Module ExampleConfiguration
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "XYZ" ' Change to your UID
+    Const UID As String = "XXYYZZ" ' Change to your UID
 
     Sub Main()
         Dim ipcon As New IPConnection() ' Create IP connection
@@ -38,8 +39,8 @@ Module ExampleConfiguration
         servo.SetPosition(5, -9000) ' Set to most left position
         servo.Enable(5)
 
-        System.Console.WriteLine("Press key to exit")
-        System.Console.ReadLine()
+        Console.WriteLine("Press key to exit")
+        Console.ReadLine()
         servo.Disable(0)
         servo.Disable(5)
         ipcon.Disconnect()

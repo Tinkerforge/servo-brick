@@ -1,12 +1,13 @@
+Imports System
 Imports Tinkerforge
 
 Module ExampleCallback
     Const HOST As String = "localhost"
     Const PORT As Integer = 4223
-    Const UID As String = "XYZ" ' Change to your UID
+    Const UID As String = "XXYYZZ" ' Change to your UID
 
-    ' Callback function for distance callback (parameter has unit mm)
-    Sub ReachedCB(ByVal sender As BrickServo, ByVal servoNum As Byte, ByVal position As Short)
+    ' Use position reached callback to swing back and forth
+    Sub PositionReachedCB(ByVal sender As BrickServo, ByVal servoNum As Byte, ByVal position As Short)
         If position = 9000 Then
             System.Console.WriteLine("Position: 90°, going to -90°")
             sender.SetPosition(servoNum, -9000)
@@ -26,22 +27,22 @@ Module ExampleCallback
         ipcon.Connect(HOST, PORT) ' Connect to brickd
         ' Don't use device before ipcon is connected
 
-        ' Register "position reached callback" to ReachedCB
-        ' ReachedCB will be called every time a position set with
-        ' SetPosition is reached
-        AddHandler servo.PositionReached, AddressOf ReachedCB
+        ' Register position reached callback to subroutine PositionReachedCB
+        AddHandler servo.PositionReached, AddressOf PositionReachedCB
 
+        ' Enable position reached callback
         servo.EnablePositionReachedCallback()
 
-        ' Set velocity to 100°/s. This has to be smaller or equal to
-        ' maximum velocity of the servo, otherwise ReachedCB will be
-        ' called too early
+        ' Set velocity to 100°/s. This has to be smaller or equal to the
+        ' maximum velocity of the servo you are using, otherwise the position
+        ' reached callback will be called too early
         servo.SetVelocity(0, 10000)
         servo.SetPosition(0, 9000)
         servo.Enable(0)
 
-        System.Console.WriteLine("Press key to exit")
-        System.Console.ReadLine()
+        Console.WriteLine("Press key to exit")
+        Console.ReadLine()
+        servo.Disable(0)
         ipcon.Disconnect()
     End Sub
 End Module

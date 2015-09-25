@@ -5,10 +5,10 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "XYZ" // Change to your UID
+#define UID "XXYYZZ" // Change to your UID
 
 // Use position reached callback to swing back and forth
-void cb_reached(uint8_t servo_num, int16_t position, void *user_data) {
+void cb_position_reached(uint8_t servo_num, int16_t position, void *user_data) {
 	Servo *servo = (Servo *)user_data;
 
 	if(position == 9000) {
@@ -38,25 +38,25 @@ int main(void) {
 	}
 	// Don't use device before ipcon is connected
 
-	// Register "position reached callback" to cb_reached
-	// cb_reached will be called every time a position set with
-	// set_position is reached
+	// Register position reached callback to function cb_position_reached
 	servo_register_callback(&servo,
 	                        SERVO_CALLBACK_POSITION_REACHED,
-	                        (void *)cb_reached,
+	                        (void *)cb_position_reached,
 	                        &servo);
 
+	// Enable position reached callback
 	servo_enable_position_reached_callback(&servo);
 
-	// Set velocity to 100°/s. This has to be smaller or equal to
-	// maximum velocity of the servo, otherwise cb_reached will be
-	// called to early.
+	// Set velocity to 100°/s. This has to be smaller or equal to the
+	// maximum velocity of the servo you are using, otherwise the position
+	// reached callback will be called too early
 	servo_set_velocity(&servo, 0, 10000);
 	servo_set_position(&servo, 0, 9000);
 	servo_enable(&servo, 0);
 
 	printf("Press key to exit\n");
 	getchar();
+	servo_disable(&servo, 0);
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
 	return 0;
 }

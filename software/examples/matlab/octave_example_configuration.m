@@ -3,7 +3,7 @@ function octave_example_configuration()
 
     HOST = "localhost";
     PORT = 4223;
-    UID = "5VF5vG"; % Change to your UID
+    UID = "XXYYZZ"; % Change to your UID
 
     ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
     servo = java_new("com.tinkerforge.BrickServo", UID, ipcon); % Create device object
@@ -23,13 +23,13 @@ function octave_example_configuration()
     servo.setPulseWidth(0, 1000, 2000);
     servo.setPeriod(0, 19500);
     servo.setAcceleration(0, 1000); % Slow acceleration
-    servo.setVelocity(0, hex2num("FFFF")); % Full speed
+    servo.setVelocity(0, 65535); % Full speed
 
     servo.setDegree(5, -9000, 9000);
     servo.setPulseWidth(5, 950, 1950);
     servo.setPeriod(5, 20000);
-    servo.setAcceleration(5, hex2num("FFFF")); % Full acceleration
-    servo.setVelocity(5, hex2num("FFFF")); % Full speed
+    servo.setAcceleration(5, 65535); % Full acceleration
+    servo.setVelocity(5, 65535); % Full speed
 
     servo.setPosition(0, 10000); % Set to most right position
     servo.enable(0);
@@ -37,6 +37,8 @@ function octave_example_configuration()
     servo.setPosition(5, -9000); % Set to most left position
     servo.enable(5);
 
-    input("Press any key to exit...\n", "s");
+    input("Press key to exit\n", "s");
+    servo.disable(0);
+    servo.disable(5);
     ipcon.disconnect();
 end

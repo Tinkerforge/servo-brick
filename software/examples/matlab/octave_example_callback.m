@@ -3,7 +3,7 @@ function octave_example_callback()
 
     HOST = "localhost";
     PORT = 4223;
-    UID = "5VF5vG"; % Change to your UID
+    UID = "XXYYZZ"; % Change to your UID
 
     ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
     servo = java_new("com.tinkerforge.BrickServo", UID, ipcon); % Create device object
@@ -11,43 +11,44 @@ function octave_example_callback()
     ipcon.connect(HOST, PORT); % Connect to brickd
     % Don't use device before ipcon is connected
 
-    % Register "position reached callback" to cb_reached
-    % cb_reached will be called every time a position set with
-    % set_position is reached
-    servo.addPositionReachedCallback(@cb_reached);
+    % Register position reached callback to function cb_position_reached
+    servo.addPositionReachedCallback(@cb_position_reached);
+
+    % Enable position reached callback
     servo.enablePositionReachedCallback();
 
-    % Set velocity to 100°/s. This has to be smaller or equal to
-    % maximum velocity of the servo, otherwise cb_reached will be
-    % called too early
+    % Set velocity to 100°/s. This has to be smaller or equal to the
+    % maximum velocity of the servo you are using, otherwise the position
+    % reached callback will be called too early
     servo.setVelocity(0, 10000);
     servo.setPosition(0, 9000);
     servo.enable(0);
 
-    input("Press any key to exit...\n", "s");
+    input("Press key to exit\n", "s");
+    servo.disable(0);
     ipcon.disconnect();
 end
 
 % Use position reached callback to swing back and forth
-function cb_reached(e)
+function cb_position_reached(e)
     servo = e.getSource();
-    position = short2int(e.position);
+    position = java2int(e.position);
 
     if position == 9000
         fprintf("Position: 90°, going to -90°\n");
-        servo.setPosition(short2int(e.servoNum), -9000);
+        servo.setPosition(java2int(e.servoNum), -9000);
     elseif position == -9000
         fprintf("Position: -90°, going to 90°\n");
-        servo.setPosition(short2int(e.servoNum), 9000);
+        servo.setPosition(java2int(e.servoNum), 9000);
     else
         fprintf("Error\n"); % Can only happen if another program sets position
     end
 end
 
-function int = short2int(short)
+function int = java2int(value)
     if compare_versions(version(), "3.8", "<=")
-        int = short.intValue();
+        int = value.intValue();
     else
-        int = short;
+        int = value;
     end
 end

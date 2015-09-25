@@ -5,7 +5,7 @@ use Tinkerforge::BrickServo;
 
 use constant HOST => 'localhost';
 use constant PORT => 4223;
-use constant UID => 'XYZ'; # Change to your UID
+use constant UID => 'XXYYZZ'; # Change to your UID
 
 my $ipcon = Tinkerforge::IPConnection->new(); # Create IP connection
 my $servo = Tinkerforge::BrickServo->new(&UID, $ipcon); # Create device object
@@ -39,7 +39,7 @@ $servo->enable(0);
 $servo->set_position(5, -9000); # Set to most left position
 $servo->enable(5);
 
-print "Press any key to exit...\n";
+print "Press key to exit\n";
 <STDIN>;
 $servo->disable(0);
 $servo->disable(5);

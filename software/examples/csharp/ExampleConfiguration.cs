@@ -1,10 +1,11 @@
+using System;
 using Tinkerforge;
 
 class Example
 {
 	private static string HOST = "localhost";
 	private static int PORT = 4223;
-	private static string UID = "XYZ"; // Change to your UID
+	private static string UID = "XXYYZZ"; // Change to your UID
 
 	static void Main()
 	{
@@ -40,8 +41,8 @@ class Example
 		servo.SetPosition(5, -9000); // Set to most left position
 		servo.Enable(5);
 
-		System.Console.WriteLine("Press enter to exit");
-		System.Console.ReadLine();
+		Console.WriteLine("Press enter to exit");
+		Console.ReadLine();
 		servo.Disable(0);
 		servo.Disable(5);
 		ipcon.Disconnect();

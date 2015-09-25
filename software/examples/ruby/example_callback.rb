@@ -8,7 +8,7 @@ include Tinkerforge
 
 HOST = 'localhost'
 PORT = 4223
-UID = 'XYZ' # Change to your UID
+UID = 'XXYYZZ' # Change to your UID
 
 ipcon = IPConnection.new # Create IP connection
 servo = BrickServo.new UID, ipcon # Create device object
@@ -29,15 +29,17 @@ servo.register_callback(BrickServo::CALLBACK_POSITION_REACHED) do |servo_num, po
   end
 end
 
+# Enable position reached callback
 servo.enable_position_reached_callback
 
-# Set velocity to 100°/s. This has to be smaller or equal to
-# maximum velocity of the servo, otherwise cb_reached will be
-# called too early
+# Set velocity to 100°/s. This has to be smaller or equal to the
+# maximum velocity of the servo you are using, otherwise the position
+# reached callback will be called too early
 servo.set_velocity 0, 10000
 servo.set_position 0, 9000
 servo.enable 0
 
 puts 'Press key to exit'
 $stdin.gets
+servo.disable 0
 ipcon.disconnect

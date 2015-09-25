@@ -5,19 +5,19 @@ import com.tinkerforge.TinkerforgeException;
 public class ExampleCallback {
 	private static final String HOST = "localhost";
 	private static final int PORT = 4223;
-	private static final String UID = "XYZ"; // Change to your UID
+	private static final String UID = "XXYYZZ"; // Change to your UID
 
-	// Note: To make the example code cleaner we do not handle exceptions. Exceptions you
-	//       might normally want to catch are described in the documentation
+	// Note: To make the example code cleaner we do not handle exceptions. Exceptions
+	//       you might normally want to catch are described in the documentation
 	public static void main(String args[]) throws Exception {
 		IPConnection ipcon = new IPConnection(); // Create IP connection
+		// Note: Declare servo as final, so the listener can access it
 		final BrickServo servo = new BrickServo(UID, ipcon); // Create device object
 
 		ipcon.connect(HOST, PORT); // Connect to brickd
 		// Don't use device before ipcon is connected
 
-		// Add and implement position reached listener
-		// (called if velocity set by setVelocity is reached)
+		// Use position reached callback to swing back and forth
 		servo.addPositionReachedListener(new BrickServo.PositionReachedListener() {
 			public void positionReached(short servoNum, short position) {
 				if(position == 9000) {
@@ -39,16 +39,18 @@ public class ExampleCallback {
 			}
 		});
 
+		// Enable position reached callback
 		servo.enablePositionReachedCallback();
 
 		// Set velocity to 100°/s. This has to be smaller or equal to the
-		// maximum velocity of the servo you are using, otherwise the
-		// velocity reached listener will be called too early
+		// maximum velocity of the servo you are using, otherwise the position
+		// reached callback will be called too early
 		servo.setVelocity((short)0, 10000);
 		servo.setPosition((short)0, (short)9000);
 		servo.enable((short)0);
 
 		System.out.println("Press key to exit"); System.in.read();
+		servo.disable((short)0);
 		ipcon.disconnect();
 	}
 }
