@@ -7,7 +7,7 @@ function matlab_example_configuration()
     UID = 'XXYYZZ'; % Change to your UID
 
     ipcon = IPConnection(); % Create IP connection
-    servo = BrickServo(UID, ipcon); % Create device object
+    servo = handle(BrickServo(UID, ipcon), 'CallbackProperties'); % Create device object
 
     ipcon.connect(HOST, PORT); % Connect to brickd
     % Don't use device before ipcon is connected
