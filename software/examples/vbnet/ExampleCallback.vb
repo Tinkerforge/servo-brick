@@ -7,7 +7,8 @@ Module ExampleCallback
     Const UID As String = "XXYYZZ" ' Change to your UID
 
     ' Use position reached callback to swing back and forth
-    Sub PositionReachedCB(ByVal sender As BrickServo, ByVal servoNum As Byte, ByVal position As Short)
+    Sub PositionReachedCB(ByVal sender As BrickServo, _
+                          ByVal servoNum As Byte, ByVal position As Short)
         If position = 9000 Then
             System.Console.WriteLine("Position: 90°, going to -90°")
             sender.SetPosition(servoNum, -9000)
