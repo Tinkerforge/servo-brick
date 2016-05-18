@@ -53,6 +53,7 @@ int main(void) {
 	getchar();
 	servo_disable(&servo, 0);
 	servo_disable(&servo, 5);
+	servo_destroy(&servo);
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
 	return 0;
 }
