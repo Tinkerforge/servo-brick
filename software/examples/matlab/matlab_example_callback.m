@@ -4,7 +4,7 @@ function matlab_example_callback()
 
     HOST = 'localhost';
     PORT = 4223;
-    UID = 'XXYYZZ'; % Change to your UID
+    UID = 'XXYYZZ'; % Change XXYYZZ to the UID of your Servo Brick
 
     ipcon = IPConnection(); % Create IP connection
     servo = handle(BrickServo(UID, ipcon), 'CallbackProperties'); % Create device object

@@ -8,7 +8,7 @@ use Tinkerforge\BrickServo;
 
 const HOST = 'localhost';
 const PORT = 4223;
-const UID = 'XXYYZZ'; // Change to your UID
+const UID = 'XXYYZZ'; // Change XXYYZZ to the UID of your Servo Brick
 
 // Use position reached callback to swing back and forth
 function cb_positionReached($servo_num, $position, $user_data)

@@ -5,7 +5,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "XXYYZZ" // Change to your UID
+#define UID "XXYYZZ" // Change XXYYZZ to the UID of your Servo Brick
 
 // Use position reached callback to swing back and forth
 void cb_position_reached(uint8_t servo_num, int16_t position, void *user_data) {

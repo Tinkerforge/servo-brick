@@ -5,7 +5,7 @@ class Example
 {
 	private static string HOST = "localhost";
 	private static int PORT = 4223;
-	private static string UID = "XXYYZZ"; // Change to your UID
+	private static string UID = "XXYYZZ"; // Change XXYYZZ to the UID of your Servo Brick
 
 	// Use position reached callback to swing back and forth
 	static void PositionReachedCB(BrickServo sender, byte servoNum, short position)

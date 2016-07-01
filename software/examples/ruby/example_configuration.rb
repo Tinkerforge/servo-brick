@@ -8,7 +8,7 @@ include Tinkerforge
 
 HOST = 'localhost'
 PORT = 4223
-UID = 'XXYYZZ' # Change to your UID
+UID = 'XXYYZZ' # Change XXYYZZ to the UID of your Servo Brick
 
 ipcon = IPConnection.new # Create IP connection
 servo = BrickServo.new UID, ipcon # Create device object

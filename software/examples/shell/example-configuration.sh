@@ -1,7 +1,7 @@
 #!/bin/sh
 # Connects to localhost:4223 by default, use --host and --port to change this
 
-uid=XXYYZZ # Change to your UID
+uid=XXYYZZ # Change XXYYZZ to the UID of your Servo Brick
 
 # Configure two servos with voltage 5.5V
 # Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms

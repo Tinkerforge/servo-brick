@@ -3,7 +3,7 @@ function octave_example_configuration()
 
     HOST = "localhost";
     PORT = 4223;
-    UID = "XXYYZZ"; % Change to your UID
+    UID = "XXYYZZ"; % Change XXYYZZ to the UID of your Servo Brick
 
     ipcon = java_new("com.tinkerforge.IPConnection"); % Create IP connection
     servo = java_new("com.tinkerforge.BrickServo", UID, ipcon); % Create device object

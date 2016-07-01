@@ -12,22 +12,22 @@ type
     ipcon: TIPConnection;
     servo: TBrickServo;
   public
-    procedure PositionReachedCB(sender: TBrickServo;
-                                const servoNum: byte; const position: smallint);
+    procedure PositionReachedCB(sender: TBrickServo; const servoNum: byte;
+                                const position: smallint);
     procedure Execute;
   end;
 
 const
   HOST = 'localhost';
   PORT = 4223;
-  UID = 'XXYYZZ'; { Change to your UID }
+  UID = 'XXYYZZ'; { Change XXYYZZ to the UID of your Servo Brick }
 
 var
   e: TExample;
 
 { Use position reached callback to swing back and forth }
-procedure TExample.PositionReachedCB(sender: TBrickServo;
-                                     const servoNum: byte; const position: smallint);
+procedure TExample.PositionReachedCB(sender: TBrickServo; const servoNum: byte;
+                                     const position: smallint);
 begin
   if (position = 9000) then begin
     WriteLn('Position: 90°, going to -90°');
