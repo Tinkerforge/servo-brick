@@ -39,3 +39,6 @@
 
 2014-11-25: 2.3.0 (1659022)
 - Add support for new SPI protocol
+
+2016-29-08: 2.3.1 (?)
+- Make sure to use all chunks when writing firmware
