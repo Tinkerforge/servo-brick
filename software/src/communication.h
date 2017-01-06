@@ -63,6 +63,8 @@
 #define FID_DISABLE_VELOCITY_REACHED_CALLBACK 33
 #define FID_IS_VELOCITY_REACHED_CALLBACK_ENABLED 34
 
+#define COM_MESSAGE_USER_LAST_FID 34
+
 #define COM_MESSAGES_USER \
 	{FID_ENABLE, (message_handler_func_t)enable}, \
 	{FID_DISABLE, (message_handler_func_t)disable}, \
