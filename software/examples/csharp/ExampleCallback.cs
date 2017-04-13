@@ -36,7 +36,7 @@ class Example
 		// Don't use device before ipcon is connected
 
 		// Register position reached callback to function PositionReachedCB
-		servo.PositionReached += PositionReachedCB;
+		servo.PositionReachedCallback += PositionReachedCB;
 
 		// Enable position reached callback
 		servo.EnablePositionReachedCallback();
