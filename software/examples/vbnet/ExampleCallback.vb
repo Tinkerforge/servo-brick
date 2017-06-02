@@ -10,14 +10,14 @@ Module ExampleCallback
     Sub PositionReachedCB(ByVal sender As BrickServo, ByVal servoNum As Byte, _
                           ByVal position As Short)
         If position = 9000 Then
-            System.Console.WriteLine("Position: 90°, going to -90°")
+            Console.WriteLine("Position: 90°, going to -90°")
             sender.SetPosition(servoNum, -9000)
         Else If position = -9000 Then
-            System.Console.WriteLine("Position: -90°, going to 90°")
+            Console.WriteLine("Position: -90°, going to 90°")
             sender.SetPosition(servoNum, 9000)
         Else
             ' Can only happen if another program sets position
-            System.Console.WriteLine("Error")
+            Console.WriteLine("Error")
         End If
     End Sub
 

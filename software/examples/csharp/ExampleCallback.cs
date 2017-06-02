@@ -12,18 +12,18 @@ class Example
 	{
 		if(position == 9000)
 		{
-			System.Console.WriteLine("Position: 90°, going to -90°");
+			Console.WriteLine("Position: 90°, going to -90°");
 			sender.SetPosition(servoNum, -9000);
 		}
 		else if(position == -9000)
 		{
-			System.Console.WriteLine("Position: -90°, going to 90°");
+			Console.WriteLine("Position: -90°, going to 90°");
 			sender.SetPosition(servoNum, 9000);
 		}
 		else
 		{
 			// Can only happen if another program sets position
-			System.Console.WriteLine("Error");
+			Console.WriteLine("Error");
 		}
 	}
 
