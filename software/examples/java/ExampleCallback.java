@@ -22,13 +22,13 @@ public class ExampleCallback {
 		// Use position reached callback to swing back and forth
 		servo.addPositionReachedListener(new BrickServo.PositionReachedListener() {
 			public void positionReached(short servoNum, short position) {
-				if(position == 9000) {
+				if (position == 9000) {
 					System.out.println("Position: 90°, going to -90°");
 					try {
 						servo.setPosition(servoNum, (short)-9000);
 					} catch(TinkerforgeException e) {
 					}
-				} else if(position == -9000) {
+				} else if (position == -9000) {
 					System.out.println("Position: -90°, going to 90°");
 					try {
 						servo.setPosition(servoNum, (short)9000);
