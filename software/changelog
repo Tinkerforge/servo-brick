@@ -46,5 +46,5 @@
 2017-05-11: 2.3.2 (5903619)
 - Add support for co-mcu Bricklets
 
-2017-06-28: 2.3.3 (TBD)
+2017-06-28: 2.3.3 (e737cdf)
 - Fix incompatibility between co-mcu support and LED Strip Bricklet (through bricklib)
