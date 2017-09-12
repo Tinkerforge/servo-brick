@@ -1,5 +1,3 @@
-package motor;
-
 import com.tinkerforge.BrickServo;
 import com.tinkerforge.IPConnection;
 
