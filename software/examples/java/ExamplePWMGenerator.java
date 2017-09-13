@@ -3,10 +3,10 @@ import com.tinkerforge.IPConnection;
 
 public class PWMGenerator {
 
-		private static final String HOST = "localhost";
+    private static final String HOST = "localhost";
     private static final int PORT = 4223;
 
-		// Change XXYYZZ to the UID of your Servo Brick
+    // Change XXYYZZ to the UID of your Servo Brick
     private static final String UID = "XXYYZZ";
 
     private static int PWM_FREQUENCY = 175000; // in Hz [15Hz to 1MHz]
@@ -14,14 +14,14 @@ public class PWMGenerator {
 
     private static short SERVO_NUMBER = 0; // [0 to 6]
 
-		// Note: To make the example code cleaner we do not handle exceptions. Exceptions
-		//       you might normally want to catch are described in the documentation
+    // Note: To make the example code cleaner we do not handle exceptions. Exceptions
+    //       you might normally want to catch are described in the documentation
     public static void main(String args[]) throws Exception {
         IPConnection ipcon = new IPConnection(); // Create IP connection
         BrickServo servo = new BrickServo(UID, ipcon); // Create device object
 
         ipcon.connect(HOST, PORT); // Connect to brickd
-				// Don't use device before ipcon is connected
+        // Don't use device before ipcon is connected
 
         // Set degree range to 0-100, this will allow to set the PWM duty cycle in 1% steps
         servo.setDegree(SERVO_NUMBER, (short) 0, (short) 100);
