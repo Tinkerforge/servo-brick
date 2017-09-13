@@ -1,8 +1,7 @@
 import com.tinkerforge.BrickServo;
 import com.tinkerforge.IPConnection;
 
-public class PWMGenerator {
-
+public class ExamplePWMGenerator {
     private static final String HOST = "localhost";
     private static final int PORT = 4223;
 
