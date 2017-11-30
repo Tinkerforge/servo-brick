@@ -23,7 +23,7 @@ PositionReachedCB[sender_,servoNum_,position_]:=
   ];
  ]
 
-AddEventHandler[servo@PositionReached,PositionReachedCB]
+AddEventHandler[servo@PositionReachedCallback,PositionReachedCB]
 
 (*Enable position reached callback*)
 servo@EnablePositionReachedCallback[]

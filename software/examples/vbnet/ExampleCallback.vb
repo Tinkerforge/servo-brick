@@ -29,7 +29,7 @@ Module ExampleCallback
         ' Don't use device before ipcon is connected
 
         ' Register position reached callback to subroutine PositionReachedCB
-        AddHandler servo.PositionReached, AddressOf PositionReachedCB
+        AddHandler servo.PositionReachedCallback, AddressOf PositionReachedCB
 
         ' Enable position reached callback
         servo.EnablePositionReachedCallback()
