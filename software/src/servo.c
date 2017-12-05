@@ -271,7 +271,6 @@ extern uint32_t servo_current_counter;
 extern uint32_t servo_current_sum[SERVO_NUM];
 
 extern ComInfo com_info;
-extern bool usb_first_connection;
 
 uint16_t servo_current[SERVO_NUM] = {0};
 uint16_t servo_output_voltage = 0;
@@ -381,17 +380,6 @@ void tick_task(const uint8_t tick_type) {
 			}
 		}
 	} else if(tick_type == TICK_TASK_TYPE_MESSAGE) {
-		if(usb_first_connection && !usbd_hal_is_disabled(IN_EP)) {
-			message_counter++;
-			if(message_counter >= 100) {
-				message_counter = 0;
-				if(brick_init_enumeration(COM_USB)) {
-					com_info.current = COM_USB;
-					message_counter = 0;
-					usb_first_connection = false;
-				}
-			}
-		}
 		tick_message++;
 
 		if(position_reached_callback_enabled) {
