@@ -20,7 +20,7 @@ PositionReachedCB[sender_,servoNum_,position_]:=
   If[position==-9000,
    Print["Position: -90°, going to 90°"];
    sender@SetPosition[servoNum,9000]
-  ];
+  ]
  ]
 
 AddEventHandler[servo@PositionReachedCallback,PositionReachedCB]
