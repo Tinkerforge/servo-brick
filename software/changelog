@@ -56,5 +56,5 @@
 2018-01-11: 2.3.5 (83558bd)
 - Fix message duplication bug (through bricklib)
 
-2018-04-27: 2.3.6 (TBD)
+2018-04-27: 2.3.6 (15993f3)
 - Fix potential deadlock between usb stack and comcu enumeration (through bricklib)
