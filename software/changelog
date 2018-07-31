@@ -59,6 +59,6 @@
 2018-04-27: 2.3.6 (15993f3)
 - Fix potential deadlock between usb stack and comcu enumeration (through bricklib)
 
-2018-07-31: 2.3.7 (TBD)
+2018-07-31: 2.3.7 (28e9cd9)
 - Add support for Isolator Bricklet (through bricklib)
 - Improve Co-MCU Bricklet error handling (through bricklib)
