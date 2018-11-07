@@ -1,17 +1,17 @@
 use std::{error::Error, io};
 
-use tinkerforge::{ipconnection::IpConnection, servo_brick::*};
+use tinkerforge::{ip_connection::IpConnection, servo_brick::*};
 
-const HOST: &str = "127.0.0.1";
+const HOST: &str = "localhost";
 const PORT: u16 = 4223;
-const UID: &str = "XXYYZZ"; // Change XXYYZZ to the UID of your Servo Brick
+const UID: &str = "XXYYZZ"; // Change XXYYZZ to the UID of your Servo Brick.
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let ipcon = IpConnection::new(); // Create IP connection
-    let servo_brick = ServoBrick::new(UID, &ipcon); // Create device object
+    let ipcon = IpConnection::new(); // Create IP connection.
+    let servo = ServoBrick::new(UID, &ipcon); // Create device object.
 
-    ipcon.connect(HOST, PORT).recv()??; // Connect to brickd
-                                        // Don't use device before ipcon is connected
+    ipcon.connect((HOST, PORT)).recv()??; // Connect to brickd.
+                                          // Don't use device before ipcon is connected.
 
     // Configure two servos with voltage 5.5V
     // Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
@@ -19,31 +19,31 @@ fn main() -> Result<(), Box<dyn Error>> {
     //
     // Servo 2: Connected to port 5, period of 20ms, pulse width of 0.95
     //          to 1.95ms and operating angle -90 to 90°
-    servo_brick.set_output_voltage(5500);
+    servo.set_output_voltage(5500);
 
-    servo_brick.set_degree(0, -10000, 10000);
-    servo_brick.set_pulse_width(0, 1000, 2000);
-    servo_brick.set_period(0, 19500);
-    servo_brick.set_acceleration(0, 1000); // Slow acceleration
-    servo_brick.set_velocity(0, 65535); // Full speed
+    servo.set_degree(0, -10000, 10000);
+    servo.set_pulse_width(0, 1000, 2000);
+    servo.set_period(0, 19500);
+    servo.set_acceleration(0, 1000); // Slow acceleration
+    servo.set_velocity(0, 65535); // Full speed
 
-    servo_brick.set_degree(5, -9000, 9000);
-    servo_brick.set_pulse_width(5, 950, 1950);
-    servo_brick.set_period(5, 20000);
-    servo_brick.set_acceleration(5, 65535); // Full acceleration
-    servo_brick.set_velocity(5, 65535); // Full speed
+    servo.set_degree(5, -9000, 9000);
+    servo.set_pulse_width(5, 950, 1950);
+    servo.set_period(5, 20000);
+    servo.set_acceleration(5, 65535); // Full acceleration
+    servo.set_velocity(5, 65535); // Full speed
 
-    servo_brick.set_position(0, 10000); // Set to most right position
-    servo_brick.enable(0);
+    servo.set_position(0, 10000); // Set to most right position
+    servo.enable(0);
 
-    servo_brick.set_position(5, -9000); // Set to most left position
-    servo_brick.enable(5);
+    servo.set_position(5, -9000); // Set to most left position
+    servo.enable(5);
 
     println!("Press enter to exit.");
     let mut _input = String::new();
     io::stdin().read_line(&mut _input)?;
-    servo_brick.disable(0);
-    servo_brick.disable(5);
+    servo.disable(0);
+    servo.disable(5);
     ipcon.disconnect();
     Ok(())
 }
