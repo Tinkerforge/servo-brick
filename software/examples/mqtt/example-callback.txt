@@ -1,0 +1,34 @@
+# Change XXYYZZ to the UID of your Servo Brick
+
+setup:
+	# Use position reached callback to swing back and forth
+	subscribe to tinkerforge/callback/servo_brick/XXYYZZ/position_reached
+        if a message arives
+            # message contains the current servoNum and position as int
+            if position is 9000
+                # Position is 90°, going to -90°
+                publish '{"servo_num": 0, "position": -9000}' to tinkerforge/request/servo_brick/XXYYZZ/set_position                
+            elseif position is -9000
+                # Position is -90°, going to 90°
+                publish '{"servo_num": 0, "position": 9000}' to tinkerforge/request/servo_brick/XXYYZZ/set_position
+            else
+                # Another program has set the position, print an error
+            endif
+        endif
+	endsubscribe
+	
+	publish '{"register": true}' to tinkerforge/register/servo_brick/XXYYZZ/position_reached # Register position_reached callback
+	
+	# Enable position reached callback
+	publish '' to tinkerforge/request/servo_brick/XXYYZZ/enable_position_reached_callback 
+	
+	# Set velocity to 100°/s. This has to be smaller or equal to the
+	# maximum velocity of the servo you are using, otherwise the position
+	# reached callback will be called too early
+	publish '{"servo_num": 0, "velocity": 10000}' to tinkerforge/request/servo_brick/XXYYZZ/set_velocity 
+	publish '{"servo_num": 0, "position": 9000}' to tinkerforge/request/servo_brick/XXYYZZ/set_position 
+	publish '{"servo_num": 0}' to tinkerforge/request/servo_brick/XXYYZZ/enable 
+
+cleanup:
+	# If you are done, run this to clean up
+	publish '{"servo_num": 0}' to tinkerforge/request/servo_brick/XXYYZZ/disable 

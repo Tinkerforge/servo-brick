@@ -1,0 +1,35 @@
+
+
+# Change XXYYZZ to the UID of your Servo Brick
+
+setup:
+	# Configure two servos with voltage 5.5V
+	# Servo 1: Connected to port 0, period of 19.5ms, pulse width of 1 to 2ms
+	#          and operating angle -100 to 100°
+	#
+	# Servo 2: Connected to port 5, period of 20ms, pulse width of 0.95
+	#          to 1.95ms and operating angle -90 to 90°
+	publish '{"voltage": 5500}' to tinkerforge/request/servo_brick/XXYYZZ/set_output_voltage 
+	
+	publish '{"servo_num": 0, "min": -10000, "max": 10000}' to tinkerforge/request/servo_brick/XXYYZZ/set_degree 
+	publish '{"servo_num": 0, "min": 1000, "max": 2000}' to tinkerforge/request/servo_brick/XXYYZZ/set_pulse_width 
+	publish '{"servo_num": 0, "period": 19500}' to tinkerforge/request/servo_brick/XXYYZZ/set_period 
+	publish '{"servo_num": 0, "acceleration": 1000}' to tinkerforge/request/servo_brick/XXYYZZ/set_acceleration  # Slow acceleration
+	publish '{"servo_num": 0, "velocity": 65535}' to tinkerforge/request/servo_brick/XXYYZZ/set_velocity  # Full speed
+	
+	publish '{"servo_num": 5, "min": -9000, "max": 9000}' to tinkerforge/request/servo_brick/XXYYZZ/set_degree 
+	publish '{"servo_num": 5, "min": 950, "max": 1950}' to tinkerforge/request/servo_brick/XXYYZZ/set_pulse_width 
+	publish '{"servo_num": 5, "period": 20000}' to tinkerforge/request/servo_brick/XXYYZZ/set_period 
+	publish '{"servo_num": 5, "acceleration": 65535}' to tinkerforge/request/servo_brick/XXYYZZ/set_acceleration  # Full acceleration
+	publish '{"servo_num": 5, "velocity": 65535}' to tinkerforge/request/servo_brick/XXYYZZ/set_velocity  # Full speed
+	
+	publish '{"servo_num": 0, "position": 10000}' to tinkerforge/request/servo_brick/XXYYZZ/set_position  # Set to most right position
+	publish '{"servo_num": 0}' to tinkerforge/request/servo_brick/XXYYZZ/enable 
+	
+	publish '{"servo_num": 5, "position": -9000}' to tinkerforge/request/servo_brick/XXYYZZ/set_position  # Set to most left position
+	publish '{"servo_num": 5}' to tinkerforge/request/servo_brick/XXYYZZ/enable 
+
+cleanup:
+	# If you are done, run this to clean up
+	publish '{"servo_num": 0}' to tinkerforge/request/servo_brick/XXYYZZ/disable 
+	publish '{"servo_num": 5}' to tinkerforge/request/servo_brick/XXYYZZ/disable 
