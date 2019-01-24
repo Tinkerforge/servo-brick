@@ -46,7 +46,6 @@ func main() {
 
 	fmt.Print("Press enter to exit.")
 	fmt.Scanln()
-
 	servo.Disable(0)
 	servo.Disable(5)
 }
