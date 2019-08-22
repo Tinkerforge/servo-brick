@@ -41,7 +41,7 @@ int main(void) {
 	// Register position reached callback to function cb_position_reached
 	servo_register_callback(&servo,
 	                        SERVO_CALLBACK_POSITION_REACHED,
-	                        (void *)cb_position_reached,
+	                        (void (*)(void))cb_position_reached,
 	                        &servo);
 
 	// Enable position reached callback
