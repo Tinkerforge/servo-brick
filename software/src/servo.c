@@ -549,14 +549,25 @@ void servo_update_data(const uint8_t servo,
 }
 
 void servo_update_position(const uint8_t servo) {
+	static bool pwm_value_is_zero[SERVO_NUM] = {false, false, false, false, false, false, false};
+	const int32_t pwm_value = servo_ns_to_pwm(servo, servo_position[servo]);
+
 	if(servo_is_pwm[servo]) {
 		PWMC_SetDutyCycle(PWM,
 		                  servo_pwm_channel[servo],
-		                  servo_ns_to_pwm(servo, servo_position[servo]));
+		                  pwm_value);
 	} else {
-		*servo_tc_counter[servo] = servo_ns_to_pwm(servo, servo_position[servo]);
+		if(pwm_value == 0) {
+			pwm_value_is_zero[servo] = true;
+			PIO_Configure(&servos_off[servo], 1);
+		} else {
+			if(pwm_value_is_zero[servo]) {
+				pwm_value_is_zero[servo] = false;
+				PIO_Configure(&servos_on[servo], 1);
+			}
+			*servo_tc_counter[servo] = pwm_value == 0 ? 1 : pwm_value;
+		}
 	}
-
 }
 
 void update_servo_current(void) {
