@@ -41,7 +41,7 @@ if __name__ == "__main__":
     servo.set_position(5, -9000) # Set to most left position
     servo.enable(5)
 
-    raw_input("Press key to exit\n") # Use input() in Python 3
+    input("Press key to exit\n") # Use raw_input() in Python 2
     servo.disable(0)
     servo.disable(5)
     ipcon.disconnect()
