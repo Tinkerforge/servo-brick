@@ -39,6 +39,6 @@ if __name__ == "__main__":
     servo.set_position(0, 9000)
     servo.enable(0)
 
-    raw_input("Press key to exit\n") # Use input() in Python 3
+    input("Press key to exit\n") # Use raw_input() in Python 2
     servo.disable(0)
     ipcon.disconnect()
