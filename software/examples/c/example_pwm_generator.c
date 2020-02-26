@@ -5,7 +5,7 @@
 
 #define HOST "localhost"
 #define PORT 4223
-#define UID "XYZ" // Change to your UID
+#define UID "XXYYZZ" // Change XXYYZZ to the UID of your Servo Brick
 
 // Due to the internal clock dividing mechanism of the Servo Brick not all
 // arbitrary PWM frequency values can be achieved. For example, the upper most
