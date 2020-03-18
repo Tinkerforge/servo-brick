@@ -49,6 +49,7 @@ process.stdin.on('data',
     function (data) {
         servo.disable(0);
         servo.disable(5);
+
         ipcon.disconnect();
         process.exit(0);
     }

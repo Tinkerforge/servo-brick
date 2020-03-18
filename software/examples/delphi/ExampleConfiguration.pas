@@ -63,8 +63,10 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
+
   servo.Disable(0);
   servo.Disable(5);
+
   ipcon.Destroy; { Calls ipcon.Disconnect internally }
 end;
 

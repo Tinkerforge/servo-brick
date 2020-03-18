@@ -43,8 +43,10 @@ class Example
 
 		Console.WriteLine("Press enter to exit");
 		Console.ReadLine();
+
 		servo.Disable(0);
 		servo.Disable(5);
+
 		ipcon.Disconnect();
 	}
 }

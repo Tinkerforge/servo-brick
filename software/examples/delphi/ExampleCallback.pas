@@ -69,7 +69,9 @@ begin
 
   WriteLn('Press key to exit');
   ReadLn;
+
   servo.Disable(0);
+
   ipcon.Destroy; { Calls ipcon.Disconnect internally }
 end;
 

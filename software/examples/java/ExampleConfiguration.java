@@ -44,8 +44,10 @@ public class ExampleConfiguration {
 		servo.enable((short)5);
 
 		System.out.println("Press key to exit"); System.in.read();
+
 		servo.disable((short)0);
 		servo.disable((short)5);
+
 		ipcon.disconnect();
 	}
 }

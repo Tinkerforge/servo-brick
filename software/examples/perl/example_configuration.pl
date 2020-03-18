@@ -42,6 +42,8 @@ $servo->enable(5);
 
 print "Press key to exit\n";
 <STDIN>;
+
 $servo->disable(0);
 $servo->disable(5);
+
 $ipcon->disconnect();

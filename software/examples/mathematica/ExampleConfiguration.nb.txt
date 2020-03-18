@@ -37,9 +37,9 @@ servo@Enable[5]
 
 Input["Click OK to exit"]
 
-(*Clean up*)
 servo@Disable[0]
 servo@Disable[5]
+
 ipcon@Disconnect[]
 ReleaseNETObject[servo]
 ReleaseNETObject[ipcon]

@@ -51,8 +51,10 @@ int main(void) {
 
 	printf("Press key to exit\n");
 	getchar();
+
 	servo_disable(&servo, 0);
 	servo_disable(&servo, 5);
+
 	servo_destroy(&servo);
 	ipcon_destroy(&ipcon); // Calls ipcon_disconnect internally
 	return 0;

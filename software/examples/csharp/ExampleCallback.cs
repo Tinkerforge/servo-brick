@@ -50,7 +50,9 @@ class Example
 
 		Console.WriteLine("Press enter to exit");
 		Console.ReadLine();
+
 		servo.Disable(0);
+
 		ipcon.Disconnect();
 	}
 }

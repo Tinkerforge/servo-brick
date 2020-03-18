@@ -25,7 +25,9 @@ function octave_example_callback()
     servo.enable(0);
 
     input("Press key to exit\n", "s");
+
     servo.disable(0);
+
     ipcon.disconnect();
 end
 

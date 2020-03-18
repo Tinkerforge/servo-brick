@@ -52,7 +52,9 @@ public class ExampleCallback {
 		servo.enable((short)0);
 
 		System.out.println("Press key to exit"); System.in.read();
+
 		servo.disable((short)0);
+
 		ipcon.disconnect();
 	}
 }

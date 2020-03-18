@@ -51,9 +51,10 @@ Notebook[{
    RowBox[{"Input", "[", "\"\<Click OK to exit\>\"", "]"}],
    RowBox[{"
 "}],
-   RowBox[{"(*", "Clean up", "*)"}],
    RowBox[{"servo", "@", RowBox[{"Disable", "[", "0", "]"}]}],
    RowBox[{"servo", "@", RowBox[{"Disable", "[", "5", "]"}]}],
+   RowBox[{"
+"}],
    RowBox[{"ipcon", "@", RowBox[{"Disconnect", "[", "]"}]}],
    RowBox[{"ReleaseNETObject", "[", "servo", "]"}],
    RowBox[{"ReleaseNETObject", "[", "ipcon", "]"}]

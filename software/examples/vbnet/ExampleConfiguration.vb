@@ -41,8 +41,10 @@ Module ExampleConfiguration
 
         Console.WriteLine("Press key to exit")
         Console.ReadLine()
+
         servo.Disable(0)
         servo.Disable(5)
+
         ipcon.Disconnect()
     End Sub
 End Module

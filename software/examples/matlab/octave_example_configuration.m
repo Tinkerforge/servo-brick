@@ -38,7 +38,9 @@ function octave_example_configuration()
     servo.enable(5);
 
     input("Press key to exit\n", "s");
+
     servo.disable(0);
     servo.disable(5);
+
     ipcon.disconnect();
 end

@@ -43,7 +43,9 @@ Module ExampleCallback
 
         Console.WriteLine("Press key to exit")
         Console.ReadLine()
+
         servo.Disable(0)
+
         ipcon.Disconnect()
     End Sub
 End Module

@@ -44,8 +44,10 @@ $servo->enable(5);
 
 echo "Press key to exit\n";
 fgetc(fopen('php://stdin', 'r'));
+
 $servo->disable(0);
 $servo->disable(5);
+
 $ipcon->disconnect();
 
 ?>

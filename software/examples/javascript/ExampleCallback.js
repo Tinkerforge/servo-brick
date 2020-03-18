@@ -50,6 +50,7 @@ console.log('Press key to exit');
 process.stdin.on('data',
     function (data) {
         servo.disable(0);
+
         ipcon.disconnect();
         process.exit(0);
     }
