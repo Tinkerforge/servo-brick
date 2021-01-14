@@ -17,7 +17,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Spawn thread to handle received callback messages.
     // This thread ends when the `servo` object
     // is dropped, so there is no need for manual cleanup.
-    let servo_copy = servo.clone(); //Device objects don't implement Sync, so they can't be shared between threads (by reference). So clone the device and move the copy.
+    let servo_copy = servo.clone(); // Device objects don't implement Sync, so they can't be shared
+                                    // between threads (by reference). So clone the device and move the copy.
     thread::spawn(move || {
         for position_reached in position_reached_receiver {
             if position_reached.position == 9000 {
