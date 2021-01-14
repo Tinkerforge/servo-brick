@@ -4,7 +4,7 @@ setup:
 	# Use position reached callback to swing back and forth
 	subscribe to tinkerforge/callback/servo_brick/XXYYZZ/position_reached
 		if a message arives
-			# message contains the current servoNum and position as int
+			# message contains the current servo_num and position as int
 			if position is 9000
 				# Position is 90°, going to -90°
 				publish '{"servo_num": 0, "position": -9000}' to tinkerforge/request/servo_brick/XXYYZZ/set_position
