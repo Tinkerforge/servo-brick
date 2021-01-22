@@ -69,5 +69,5 @@
   - Increase SPI stack timeout (for RED Brick)
   - Fix bugs in set/get_spitfp_* functions
 
-2019-11-22: 2.3.9 (ad70b6a):
-- Make sure that Servo Brick output goes low if pulse width and position is set to 0.
+2019-11-22: 2.3.9 (ad70b6a)
+- Make sure that Servo Brick output goes low if pulse width and position is set to 0
